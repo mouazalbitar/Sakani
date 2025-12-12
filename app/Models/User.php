@@ -1,0 +1,120 @@
+<?php
+
+namespace App\Models;
+
+// use Illuminate\Contracts\Auth\MustVerifyEmail;
+
+use Illuminate\Container\Attributes\Storage;
+use Illuminate\Database\Eloquent\Casts\Attribute;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Foundation\Auth\User as Authenticatable;
+use Illuminate\Notifications\Notifiable;
+use Illuminate\Support\Facades\Storage as FacadesStorage;
+use Laravel\Sanctum\HasApiTokens;
+
+class User extends Authenticatable
+{
+    /** @use HasFactory<\Database\Factories\UserFactory> */
+    use HasFactory, Notifiable, HasApiTokens;
+
+
+    /**
+     * The attributes that are mass assignable.
+     *
+     * @var list<string>
+     */
+    protected $fillable = [
+        'phone_number',
+        'password',
+        'firstName',
+        'lastName',
+        'email',
+        'city_id',
+        'birthday',
+        'photo',
+        'id_img'
+    ];
+
+    /**
+     * The attributes that should be hidden for serialization.
+     *
+     * @var list<string>
+     */
+    protected $hidden = [
+        'password',
+        'remember_token',
+        'city_id', // خفيت هاد الرقم لانو هو حقل موجود بالقاعدة 
+        'cityData', // خفيت هاد الحقل لانو بينبعت بسبب (with->('cityData')) وانا بدي بس اسم المدينة 
+        'photo',
+        'id_img',
+        'created_at',
+        'updated_at'
+    ];
+
+    protected $appends = [
+        'city_name', // هاد الحقل يلي بدو يحوي اسم المدينة 
+        'photo_url',
+        'id_img_url'
+    ]; // ملاحظة: ازا اضفت شي وما عملتلو دالتو بيطلع اكسبشن باسم هاد الشي ومعها attribute
+
+    /**
+     * Get the attributes that should be cast.
+     *
+     * @return array<string, string>
+     */
+    protected function casts(): array
+    {
+        return [
+            'email_verified_at' => 'datetime',
+            'password' => 'hashed',
+        ];
+    }
+
+    public function cityData()
+    {
+        return $this->belongsTo(City::class, 'city_id', 'id');
+    }
+
+    protected function cityName(): Attribute
+    {
+        return Attribute::make(
+            get: fn() => $this->cityData->city ?? null
+        );
+    }
+
+    public function bookings()
+    {
+        return $this->hasMany(Booking::class);
+    }
+
+    protected function photoUrl(): Attribute
+    {
+        return Attribute::make(
+            get: function () {
+                // 1. مسار الصورة المخزن في عمود 'photo'
+                $imagePath = $this->photo;
+
+                if ($imagePath) {
+                    // 2. بناء الرابط العام الكامل
+                    // يُفترض أن المسار المخزن هو بالنسبة لـ 'public' disk
+                    // نستخدم asset() لضمان الرابط الكامل (http/https)
+                    return asset(FacadesStorage::url($imagePath));
+                }
+
+                // 3. في حال عدم وجود صورة، يمكن إرجاع null أو رابط صورة افتراضية
+                return null;
+            },
+        );
+    }
+    protected function idImgUrl(): Attribute
+    {
+        return Attribute::make(
+            get: function () {
+                $imagePath = $this->id_img;
+                if ($imagePath)
+                    return asset(FacadesStorage::url($imagePath));
+                return null;
+            },
+        );
+    }
+}
