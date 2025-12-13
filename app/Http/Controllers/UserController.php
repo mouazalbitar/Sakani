@@ -104,8 +104,9 @@ class UserController extends Controller
     {
         $userId = Auth::user()->id;
         $user = User::findOrFail($userId);
-        $user->update($request->all());
+        $user->update($request->validated());
         $user->makeHidden([
+            'number_verified_at',
             'type',
             'is_approved',
             'created_at',

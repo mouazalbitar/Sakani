@@ -30,8 +30,8 @@ class UpdateUserDataRequest extends FormRequest
             'email' => ['sometimes', 'email', 'unique:users,email'],
             'city_id' => ['sometimes', 'integer', 'exists:cities,id'],
             'birthday' => ['sometimes', 'date_format:Y-m-d', 'date'],
-            'photo' => ['sometimes', 'string', 'image', 'mimes:png,jpg,jpeg,heic'],
-            'id_img' => ['sometimes', 'string', 'image', 'mimes:png,jpg,jpeg,heic']
+            'photo' => ['sometimes', 'image', 'mimes:png,jpg,jpeg,heic', 'max:5120'],
+            'id_img' => ['sometimes', 'image', 'mimes:png,jpg,jpeg,heic', 'max:5120']
         ];
     }
 }

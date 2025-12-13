@@ -31,7 +31,7 @@ class CreateUserRequest extends FormRequest
             'city_id' => ['integer', 'required', 'exists:cities,id'],
             'birthday' => ['date_format:Y-m-d', 'date'],
             'photo' => ['image', 'mimes:png,jpg,jpeg,heic', 'max:5120'],
-            'id_img' => ['image', 'mimes:png,jpg,jpeg,heic', 'max:5120']
+            'id_img' => ['required', 'image', 'mimes:png,jpg,jpeg,heic', 'max:5120']
         ];
     }
     public function messages()

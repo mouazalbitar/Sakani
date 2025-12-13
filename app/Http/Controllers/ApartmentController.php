@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\AddApartmentRequest;
+use App\Http\Resources\ApartmentResource;
 use App\Models\Apartment;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -15,13 +16,9 @@ class ApartmentController extends Controller
     public function index()
     {
         $apartments = Apartment::all();
-        $apartments->makeHidden([
-            'created_at',
-            'updated_at'
-        ]);
         return response()->json([
             'message'=>'The Operation was Successful.',
-            'data'=>$apartments
+            'data'=>ApartmentResource::collection($apartments)
         ]);
     }
 

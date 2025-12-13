@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use Illuminate\Database\Eloquent\Casts\Attribute;
 use Illuminate\Database\Eloquent\Model;
 
 class Apartment extends Model
@@ -21,15 +22,31 @@ class Apartment extends Model
     ];
 
     protected $hidden = [
-        
+        'number_verified_at',
+        'city_id',
+        'city_data',
+        'created_at',
+        'updated_at'
+    ];
+
+    protected $appends = [
+        'city_name',
     ];
 
     public function cityData()
     {
-        return $this->belongsTo(City::class);
+        return $this->belongsTo(City::class, 'city_id', 'id');
     }
 
-    public function bookings(){
+    protected function cityName(): Attribute
+    {
+        return Attribute::make(
+            get: fn() => $this->cityData->city ?? null
+        );
+    }
+
+    public function bookings()
+    {
         return $this->hasMany(Booking::class);
     }
 }

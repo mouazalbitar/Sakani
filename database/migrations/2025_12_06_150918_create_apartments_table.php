@@ -17,9 +17,9 @@ return new class extends Migration
             $table->string('governorate');
             $table->foreignId('city_id')->constrained('cities', 'id');
             $table->string('street');
-            $table->double('price');
-            $table->integer('rooms');
-            $table->integer('size');
+            $table->double('price')->unsigned();
+            $table->integer('rooms')->unsigned()->default(1);
+            $table->integer('size')->unsigned();
             $table->enum('condition', ['deluxe', 'new', 'normal']);
             $table->text('details')->nullable();
             $table->string('img1')->nullable();
