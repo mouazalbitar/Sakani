@@ -27,7 +27,13 @@ class DatabaseSeeder extends Seeder
         Storage::disk('public')->makeDirectory('UsersPhoto');
         Storage::disk('public')->deleteDirectory('UsersIdPhoto');
         Storage::disk('public')->makeDirectory('UsersIdPhoto');
+        Storage::disk('public')->deleteDirectory('ApartmentsPhoto');
+        Storage::disk('public')->makeDirectory('ApartmentsPhoto');
 
-        $this->call([CitySeeder::class, UserSeeder::class, ApartmentSeeder::class]);
+        $this->call([
+            CitySeeder::class,
+            UserSeeder::class,
+            ApartmentSeeder::class
+        ]);
     }
 }

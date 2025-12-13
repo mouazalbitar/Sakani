@@ -11,11 +11,15 @@ Route::get('/user', function (Request $request) {
 
 Route::post('/register', [UserController::class, 'register']);
 Route::post('/login', [UserController::class, 'login']);
-Route::post('/logout', [UserController::class, 'logout'])->middleware('auth:sanctum');
+Route::post('/logout', [UserController::class, 'logout'])
+    ->middleware('auth:sanctum');
 
-Route::put('/user/update', [UserController::class, 'updateProfile'])->middleware('auth:sanctum');
+Route::put('/user/update', [UserController::class, 'updateProfile'])
+    ->middleware('auth:sanctum');
 
-Route::prefix('/apartment')->group(function(){
-Route::get('getAll', [ApartmentController::class, 'index'])->middleware('auth:sanctum');
-Route::post('add', [ApartmentController::class, 'store'])->middleware('auth:sanctum');
+Route::prefix('/apartment')->group(function () {
+    Route::get('getAll', [ApartmentController::class, 'index'])
+        ->middleware('auth:sanctum');
+    Route::post('add', [ApartmentController::class, 'store'])
+        ->middleware('auth:sanctum');
 })->middleware('auth:sanctum');

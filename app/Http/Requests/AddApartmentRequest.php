@@ -30,6 +30,7 @@ class AddApartmentRequest extends FormRequest
             'rooms' => ['integer', 'min:1'],
             'size' => ['integer', 'min:1'],
             'condition' => ['string', 'required', 'in:deluxe,new,normal'],
+            'details' => ['string'],
             'img1'=>['nullable', 'image', 'mimes:png,jpg,jpeg', 'max:4096'], //'required', 
             'img2'=>['nullable', 'image', 'mimes:png,jpg,jpeg', 'max:4096'],
             'img3'=>['nullable', 'image', 'mimes:png,jpg,jpeg', 'max:4096']
