@@ -15,10 +15,11 @@ class ApartmentController extends Controller
      */
     public function index()
     {
-        $apartments = Apartment::all();
+        $apartments = Apartment::with('owner:id,firstName,lastName,phone_number')
+            ->get();
         return response()->json([
-            'message'=>'The Operation was Successful.',
-            'data'=>ApartmentResource::collection($apartments)
+            'message' => 'The Operation was Successful.',
+            'data' => ApartmentResource::collection($apartments)
         ]);
     }
 
@@ -32,9 +33,9 @@ class ApartmentController extends Controller
         $data['owner_id'] = $userId;
         $apartment = Apartment::create($data);
         return response()->json([
-            'message'=>'The Apartment has Successfully Added',
-            'data'=>$apartment,
-            'status'=>200
+            'message' => 'The Apartment has Successfully Added',
+            'data' => $apartment,
+            'status' => 200
         ]);
     }
 
