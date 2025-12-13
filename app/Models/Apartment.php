@@ -26,7 +26,7 @@ class Apartment extends Model
         'city_id',
         'city_data',
         'created_at',
-        'updated_at'
+        'updated_at',
     ];
 
     protected $appends = [
@@ -46,13 +46,15 @@ class Apartment extends Model
         );
     }
 
-    public function owner(){
+    public function owner()
+    {
         return $this->belongsTo(User::class, 'owner_id', 'id');
     }
 
-    protected function ownerData(): Attribute{
+    protected function ownerData(): Attribute
+    {
         return Attribute::make(
-            get: fn ()=> $this->owner ?? null
+            get: fn() => $this->owner ?? null
         );
     }
 

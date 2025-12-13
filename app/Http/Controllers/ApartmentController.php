@@ -15,7 +15,7 @@ class ApartmentController extends Controller
      */
     public function index()
     {
-        $apartments = Apartment::with('owner:id,firstName,lastName,phone_number')
+        $apartments = Apartment::with('owner:id,firstName,lastName')
             ->get();
         return response()->json([
             'message' => 'The Operation was Successful.',
