@@ -29,10 +29,9 @@ class Apartment extends Model
         'updated_at',
     ];
 
-    protected $appends = [
-        'owner_data',
-        'city_name',
-    ];
+    // protected $appends = [
+    //     'city_name',
+    // ];
 
     public function cityData()
     {
@@ -51,15 +50,13 @@ class Apartment extends Model
         return $this->belongsTo(User::class, 'owner_id', 'id');
     }
 
-    protected function ownerData(): Attribute
-    {
-        return Attribute::make(
-            get: fn() => $this->owner ?? null
-        );
-    }
-
     public function bookings()
     {
         return $this->hasMany(Booking::class);
     }
+
+    public function reviews(){
+        return $this->hasMany(Review::class);
+    }
+
 }
