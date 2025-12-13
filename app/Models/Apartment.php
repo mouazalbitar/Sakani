@@ -22,6 +22,7 @@ class Apartment extends Model
     ];
 
     protected $hidden = [
+        'owner_id',
         'number_verified_at',
         'city_id',
         'city_data',
@@ -30,6 +31,7 @@ class Apartment extends Model
     ];
 
     protected $appends = [
+        'owner_name',
         'city_name',
     ];
 
@@ -42,6 +44,16 @@ class Apartment extends Model
     {
         return Attribute::make(
             get: fn() => $this->cityData->city ?? null
+        );
+    }
+
+    public function userData(){
+        return $this->belongsTo(User::class, 'owner_id', 'id');
+    }
+
+    protected function userName(): Attribute{
+        return Attribute::make(
+            get: fn ()=> $this->userData->firstName ?? null
         );
     }
 

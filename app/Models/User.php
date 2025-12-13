@@ -87,6 +87,11 @@ class User extends Authenticatable
         return $this->hasMany(Booking::class);
     }
 
+    public function apartments()
+    {
+        return $this->hasMany(Apartment::class);
+    }
+
     protected function photoUrl(): Attribute
     {
         return Attribute::make(
