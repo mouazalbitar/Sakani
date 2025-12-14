@@ -5,7 +5,7 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Model;
 
 class Review extends Model
-{
+{ // لبعدين , لا تنسى يكون التقييم فريد ع مستوى المستأجر والشقة مع بعض, ولا تنسى تمنع المستخدم من تقييم شقة ما استأجرها
     protected $fillable = [
         'apartment_id',
         'tenant_id',

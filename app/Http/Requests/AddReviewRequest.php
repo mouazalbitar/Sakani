@@ -23,7 +23,7 @@ class AddReviewRequest extends FormRequest
     {
         return [
             'apartment_id'=>['required', 'integer', 'min:1', 'exists:apartments,id'],
-            'rating'=>['required', 'numeric', 'min:0.1', 'max:5'],
+            'rating'=>['required', 'numeric', 'decimal:0,1', 'min:0.1', 'max:5'],
             'comment'=>['nullable', 'string']
         ];
     }
