@@ -16,6 +16,9 @@ class ApartmentController extends Controller
     public function index()
     {
         $apartments = Apartment::get();
+        $apartments->makeHidden([
+            'owner_id'
+        ]);
         return response()->json([
             'message' => 'The Operation was Successful.',
             'data' => ApartmentResource::collection($apartments)

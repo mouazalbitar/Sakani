@@ -7,10 +7,14 @@ use Illuminate\Database\Eloquent\Model;
 class Review extends Model
 {
     protected $fillable = [
-        'apertment_id',
+        'apartment_id',
         'tenant_id',
         'rating',
         'comment'
+    ];
+    protected $hidden = [
+        'updated_at',
+        'created_at'
     ];
     public function tenant()
     {

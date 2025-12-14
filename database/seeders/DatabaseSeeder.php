@@ -33,7 +33,8 @@ class DatabaseSeeder extends Seeder
         $this->call([
             CitySeeder::class,
             UserSeeder::class,
-            ApartmentSeeder::class
+            ApartmentSeeder::class,
+            ReviweSeeder::class
         ]);
     }
 }

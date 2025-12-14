@@ -2,8 +2,10 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\AddReviewRequest;
 use App\Models\Review;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class ReviewController extends Controller
 {
@@ -18,9 +20,17 @@ class ReviewController extends Controller
     /**
      * Store a newly created resource in storage.
      */
-    public function store(Request $request)
+    public function store(AddReviewRequest $request)
     {
-        //
+        $userId = Auth::user()->id;
+        $data = $request->validated();
+        $data['tenant_id'] = $userId;
+        $rating = Review::create($data);
+        return response()->json([
+            'message'=>'The Review was added Successful.',
+            'data'=>$rating,
+            'status'=>201
+        ]);
     }
 
     /**
