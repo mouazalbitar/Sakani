@@ -41,44 +41,28 @@ class Apartment extends Model
         'img3_url'
     ];
 
-    protected function img1Url(): Attribute
+    public function getImg1UrlAttribute(): ?string
     {
-        return Attribute::make(
-            get: function () {
-                $imgpath = $this->img1;
-                if ($imgpath) {
-                    return asset(Storage::url($imgpath));
-                }
-                return null;
-            }
-        );
+        if ($this->img1) {
+            return asset('storage/' . $this->img1); 
+        }
+        return null;
+    }
+    public function getImg2UrlAttribute(): ?string
+    {
+        if ($this->img2) {
+            return asset('storage/' . $this->img2); 
+        }
+        return null;
+    }
+    public function getImg3UrlAttribute(): ?string
+    {
+        if ($this->img3) {
+            return asset('storage/' . $this->img3); 
+        }
+        return null;
     }
 
-    protected function img2Url(): Attribute
-    {
-        return Attribute::make(
-            get: function () {
-                $imgpath = $this->img2;
-                if ($imgpath) {
-                    return asset(Storage::url($imgpath));
-                }
-                return null;
-            }
-        );
-    }
-
-    protected function img3Url(): Attribute
-    {
-        return Attribute::make(
-            get: function () {
-                $imgpath = $this->img3;
-                if ($imgpath) {
-                    return asset(Storage::url($imgpath));
-                }
-                return null;
-            }
-        );
-    }
 
     public function cityData()
     {

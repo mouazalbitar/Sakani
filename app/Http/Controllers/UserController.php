@@ -47,9 +47,10 @@ class UserController extends Controller
     public function verifyWhatsapp(Request $request)
     {
         $request->validate([
-            'phone_number' => 'required|string|exists:users,phone_number',
-            'otp' => 'required|numeric|digits:6',
-        ]);
+        // إزالة القيود المحلية، والاكتفاء بالتحقق من وجوده في جدول المستخدمين
+        'phone_number' => 'required|string|exists:users,phone_number', 
+        'otp' => 'required|numeric|digits:6',
+    ]);
 
         $storedOtp = Cache::get('otp_' . $request->phone_number);
 

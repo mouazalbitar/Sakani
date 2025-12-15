@@ -24,21 +24,26 @@ class SendVerification implements ShouldQueue
 
     public function handle(): void
     {
-        // بناء رسالة التحقق
-        $messageBody = "مرحباً! رمز التحقق الخاص بك هو: " . $this->verificationCode . ". يُرجى استخدامه لتأكيد الحساب.";
-        
-        // بناء الـ URL الكامل باستخدام متغيرات البيئة
-        $url = env('ULTRAMSG_API_URL') . '/' . env('ULTRAMSG_INSTANCE_ID') . '/messages/chat';
 
-        // استخدام Http::asForm() لإرسال البيانات كتنسيق application/x-www-form-urlencoded
-        // هذه الطريقة هي المكافئ الحديث والأسهل لاستخدام cURL مع POSTFIELDS و Content-Type
-        $response = Http::asForm()->post($url, [
-            'token' => env('ULTRAMSG_TOKEN'),
-            // رقم الهاتف يجب أن يتضمن رمز الدولة، على سبيل المثال: +963xxxxxxxxx
-            'to'    => $this->phoneNumber, 
-            'body'  => $messageBody,
-        ]);
+        $instanceId = env('ULTRAMSG_INSTANCE_ID');
+    $token = env('ULTRAMSG_TOKEN');
+    $apiUrl = env('ULTRAMSG_API_URL');
+    
+    // التأكد من أن جميع المتغيرات موجودة قبل المتابعة
+    if (empty($instanceId) || empty($token) || empty($apiUrl)) {
+        Log::error('ULTRAMSG environment variables are missing.');
+        return; // إيقاف التنفيذ لتجنب الفشل غير المبرر
+    }
 
+    $url = "{$apiUrl}/{$instanceId}/messages/chat";
+
+    $messageBody = 'Hi, Thanks for registered in our application. Your Verification Code is ' . $this->verificationCode;
+
+    $response = Http::asForm()->post($url, [ // استخدام asForm لضمان التوافق مع UltraMsg
+        'token' => $token,
+        'to' => $this->phoneNumber,
+        'body' => $messageBody
+    ]);
         // معالجة الأخطاء (ضروري في الـ Job)
         if ($response->failed()) {
             // تسجيل الخطأ كاملاً في سجلات Laravel

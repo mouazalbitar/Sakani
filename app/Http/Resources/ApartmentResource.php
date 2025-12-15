@@ -24,9 +24,9 @@ class ApartmentResource extends JsonResource
             'size' => $this->size,
             'condition' => $this->condition,
             'details' => $this->details,
-            'img1' => $this->img1,
-            'img2' => $this->img2,
-            'img3' => $this->img3,
+            'img1' => $this->img1_url,
+            'img2' => $this->img2_url,
+            'img3' => $this->img3_url,
             'city_name' => $this->city_name,
         ];
     }
