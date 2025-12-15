@@ -48,8 +48,6 @@ class User extends Authenticatable
         'cityData', // خفيت هاد الحقل لانو بينبعت بسبب (with->('cityData')) وانا بدي بس اسم المدينة 
         'photo',
         'id_img',
-        'created_at',
-        'updated_at'
     ];
 
     protected $appends = [
