@@ -81,8 +81,7 @@ class UserController extends Controller
         if (!Auth::attempt($request->only('phone_number', 'password')))
             return response()->json([
                 'message' => 'Login Failed, Incorrect Phone Number or Password.',
-                'status' => 401
-            ]);
+            ], 404);
         $user = User::where('phone_number', $request->phone_number)
             ->with('cityData') // اسم الدالة يلي عاملة العلاقة
             ->firstOrFail();

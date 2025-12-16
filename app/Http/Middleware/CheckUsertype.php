@@ -16,11 +16,21 @@ class CheckUsertype
      */
     public function handle(Request $request, Closure $next): Response
     {
-        if (Auth::user()->type === 1)
+        // 1. التحقق من المصادقة (Auth::check()):
+        // يجب أن يسبق هذا الـ Middleware، ولكن التحقق هنا يزيد الأمان.
+        if (!Auth::check()) {
+            return response()->json(['message' => 'Unauthenticated.'], 401);
+        }
+
+        $user = Auth::user();
+
+        // 2. التحقق من الدور (Authorization):
+        // نفترض أن حقل 'type' أو 'role' يجب أن يساوي 'admin'
+        if ($user->type == 1) {
             return $next($request);
-        return response()->json([
-            'message' => 'Not Authorized, Just for admin',
-            'status' => 403
-        ]);
+        }
+        
+        // 3. منع الوصول والرد بـ 403
+        return response()->json(['message' => 'Access denied. Just for Admin.'], 403);
     }
 }
