@@ -47,10 +47,10 @@ class UserController extends Controller
     public function verifyWhatsapp(Request $request)
     {
         $request->validate([
-        // إزالة القيود المحلية، والاكتفاء بالتحقق من وجوده في جدول المستخدمين
-        'phone_number' => 'required|string|exists:users,phone_number', 
-        'otp' => 'required|numeric|digits:6',
-    ]);
+            // إزالة القيود المحلية، والاكتفاء بالتحقق من وجوده في جدول المستخدمين
+            'phone_number' => 'required|string|exists:users,phone_number',
+            'otp' => 'required|numeric|digits:6',
+        ]);
 
         $storedOtp = Cache::get('otp_' . $request->phone_number);
 
@@ -98,6 +98,34 @@ class UserController extends Controller
             'token' => $token,
         ]);
     }
+    public function loginAdmin(LoginRequest $request)
+    {
+        if (!Auth::attempt($request->only('phone_number', 'password')))
+            return response()->json([
+                'message' => 'Login Failed, Incorrect Phone Number or Password.',
+            ], 404);
+        $user = User::where('phone_number', $request->phone_number)
+            ->with('cityData') // اسم الدالة يلي عاملة العلاقة
+            ->firstOrFail();
+        if ($user->is_approved == 0) {
+            Auth::logout();
+            return response()->json([
+                'message' => 'Login Failed, Your Account has not been approved by the Admin.'
+            ], 401);
+        }
+        if ($user->type == 0) {
+            Auth::logout();
+            return response()->json([
+                'message' => 'Login Failed, Just for Admin.'
+            ], 403);
+        }
+        $token = $user->createToken('authToken')->plainTextToken;
+        return response()->json([
+            'message' => 'Login Successful',
+            'data' => $user,
+            'token' => $token,
+        ]);
+    }
 
     public function logout(Request $request)
     {
@@ -121,6 +149,22 @@ class UserController extends Controller
 
 
 
+
+
+
+
+
+
+    public function acceptUser($id)
+    {
+        $user = User::findOrFail($id);
+        $user->is_approved = 1;
+        $user->save();
+        return response()->json([
+            'message' => 'Complete Successfully.',
+            'data' => $user
+        ], 201);
+    }
 
 
 
