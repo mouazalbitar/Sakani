@@ -21,6 +21,7 @@ return new class extends Migration
             $table->integer('rooms')->unsigned()->default(1);
             $table->integer('size')->unsigned();
             $table->enum('condition', ['deluxe', 'new', 'normal']);
+            $table->enum('is_approved', ['approved', 'rejected', 'waiting'])->default('waiting');
             $table->text('details')->nullable();
             $table->string('img1')->nullable();
             $table->string('img2')->nullable();

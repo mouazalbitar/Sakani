@@ -17,6 +17,7 @@ class Apartment extends Model
         'rooms',
         'size',
         'condition',
+        'is_approved',
         'details',
         'img1',
         'img2',

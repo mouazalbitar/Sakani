@@ -31,6 +31,6 @@ class CheckUsertype
         }
         
         // 3. منع الوصول والرد بـ 403
-        return response()->json(['message' => 'Access denied. Just for Admin.'], 403);
+        return response()->json(['message' => 'Access denied, Just for Admin.'], 403);
     }
 }

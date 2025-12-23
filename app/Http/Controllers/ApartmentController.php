@@ -10,25 +10,65 @@ use Illuminate\Support\Facades\Auth;
 
 class ApartmentController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     */
     public function index()
     {
-        $apartments = Apartment::get();
-        $apartments->makeHidden([
-            'owner_id'
-        ]);
+        $apartments = Apartment::all();
         return response()->json([
-            'message' => 'The Operation was Successful.',
+            'message' => 'Complete Successfully.',
             'data' => ApartmentResource::collection($apartments)
         ]);
     }
 
-    /**
-     * Store a newly created resource in storage.
-     */
-    public function store(AddApartmentRequest $request)
+    public function avaliable_apartment()
+    {
+        $apartments = Apartment::where('is_approved', 'approved')->get();
+        return response()->json([
+            'message' => 'Complete Successfully.',
+            'data' => ApartmentResource::collection($apartments)
+        ]);
+    }
+
+    public function waitingList()
+    {
+        $apartments = Apartment::where('is_approved', 'waiting')->get();
+        return response()->json([
+            'message' => 'Complete Successfully.',
+            'data' => ApartmentResource::collection($apartments)
+        ]);
+    }
+
+    public function rejectedList()
+    {
+        $apartments = Apartment::where('is_approved', 'rejected')->get();
+        return response()->json([
+            'message' => 'Complete Successfully.',
+            'data' => ApartmentResource::collection($apartments)
+        ]);
+    }
+
+    public function accept_apartment(int $id)
+    {
+        $apartment = Apartment::findOrFail($id);
+        $apartment->is_approved = 'approved';
+        $apartment->save();
+        return response()->json([
+            'message'=>'Complete Successfully.',
+            'data'=>ApartmentResource::collection($apartment)
+        ], 200);
+    }
+    public function reject_apartment(int $id)
+    {
+        $apartment = Apartment::findOrFail($id);
+        $apartment->is_approved = 'rejected';
+        $apartment->save();
+        return response()->json([
+            'message'=>'Complete Successfully.',
+            'data'=>ApartmentResource::collection($apartment)
+        ], 200);
+    }
+
+
+    public function add_apartment(AddApartmentRequest $request)
     {
         $userId = Auth::user()->id;
         $data = $request->validated();

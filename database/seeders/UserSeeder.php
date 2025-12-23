@@ -100,7 +100,8 @@ class UserSeeder extends Seeder
             'lastName' => 'Tinawe',
             'email' => 'abd@gmail.com',
             'city_id' => 5,
-            'birthday' => '2000-01-01'
+            'birthday' => '2000-01-01',
+            'is_approved' => 'rejected'
         ]);
         User::create([
             'phone_number' => '0965050007',
@@ -109,7 +110,8 @@ class UserSeeder extends Seeder
             'lastName' => 'Ghrout',
             'email' => 'sam@gmail.com',
             'city_id' => 4,
-            'birthday' => '2000-01-01'
+            'birthday' => '2000-01-01',
+            'is_approved' => 'rejected'
         ]);
         User::create([
             'phone_number' => '0965050008',

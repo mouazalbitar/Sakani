@@ -23,12 +23,12 @@ class DatabaseSeeder extends Seeder
         //     'email' => 'test@example.com',
         // ]);
 
-        Storage::disk('public')->deleteDirectory('UsersPhoto');
-        Storage::disk('public')->makeDirectory('UsersPhoto');
-        Storage::disk('public')->deleteDirectory('UsersIdPhoto');
-        Storage::disk('public')->makeDirectory('UsersIdPhoto');
-        Storage::disk('public')->deleteDirectory('ApartmentsPhoto');
-        Storage::disk('public')->makeDirectory('ApartmentsPhoto');
+        // Storage::disk('public')->deleteDirectory('UsersPhoto');
+        // Storage::disk('public')->makeDirectory('UsersPhoto');
+        // Storage::disk('public')->deleteDirectory('UsersIdPhoto');
+        // Storage::disk('public')->makeDirectory('UsersIdPhoto');
+        // Storage::disk('public')->deleteDirectory('ApartmentsPhoto');
+        // Storage::disk('public')->makeDirectory('ApartmentsPhoto');
 
         $this->call([
             CitySeeder::class,

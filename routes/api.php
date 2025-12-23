@@ -23,9 +23,12 @@ Route::middleware('auth:sanctum')
     ->prefix('/user')
     ->group(function () {
         Route::get('/getAll', 'index')->middleware('isAdmin');
-        Route::put('/accept/{id}', [UserController::class, 'acceptUser'])->middleware('isAdmin');
-        Route::put('/reject/{id}', [UserController::class, 'rejectUser'])->middleware('isAdmin');
-        Route::put('/update', [UserController::class, 'updateProfile']);
+        Route::get('/acceptedList', 'acceptedUsers')->middleware('isAdmin');
+        Route::get('/rejectedList', 'rejectedUsers')->middleware('isAdmin');
+        Route::get('/waitingList', 'waitingList')->middleware('isAdmin');
+        Route::put('/accept/{id}', 'acceptUser')->middleware('isAdmin');
+        Route::put('/reject/{id}', 'rejectUser')->middleware('isAdmin');
+        Route::put('/update', 'updateProfile');
     });
 
 
@@ -33,8 +36,13 @@ Route::middleware('auth:sanctum')
     ->controller(ApartmentController::class)
     ->prefix('/apartment')
     ->group(function () {
-        Route::get('/getAll', 'index');
-        Route::post('/add', 'store');
+        Route::get('/getAll', 'index')->middleware('isAdmin');
+        Route::get('/avaliable_apartments', 'avaliable_apartment');
+        Route::get('/waiting_apartments', 'waitingList')->middleware('isAdmin');
+        Route::get('/rejected_apartments', 'rejectedList')->middleware('isAdmin');
+        Route::get('/accept/{id}', 'accept_apartment')->middleware('isAdmin');
+        Route::get('/reject/{id}', 'reject_apartment')->middleware('isAdmin');
+        Route::post('/add_apartment', 'add_apartment');
     });
 
 

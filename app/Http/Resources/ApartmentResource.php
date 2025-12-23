@@ -18,16 +18,17 @@ class ApartmentResource extends JsonResource
             'id' => $this->id,
             // 'owner_id' => $this->owner_id,
             'governorate' => $this->governorate,
+            'city_name' => $this->city_name,
             'street' => $this->street,
             'price' => $this->price,
             'rooms' => $this->rooms,
             'size' => $this->size,
             'condition' => $this->condition,
+            'is_approved' => $this->is_approved,
             'details' => $this->details,
             'img1' => $this->img1_url,
             'img2' => $this->img2_url,
-            'img3' => $this->img3_url,
-            'city_name' => $this->city_name,
+            'img3' => $this->img3_url
         ];
     }
 }

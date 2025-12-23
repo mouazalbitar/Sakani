@@ -134,12 +134,34 @@ class UserController extends Controller
 
     public function index()
     {
-        if (Auth::user()->type == 0) {
-            return response()->json([
-                'message' => 'unauthorized.'
-            ], 403);
-        }
         $users = User::all();
+        return response()->json([
+            'message' => 'Complete process.',
+            'data' => $users
+        ], 200);
+    }
+
+    public function acceptedUsers()
+    {
+        $users = User::where('is_approved', 'approved')->get();
+        return response()->json([
+            'message' => 'Complete process.',
+            'data' => $users
+        ], 200);
+    }
+
+    public function rejectedUsers()
+    {
+        $users = User::where('is_approved', 'rejected')->get();
+        return response()->json([
+            'message' => 'Complete process.',
+            'data' => $users
+        ], 200);
+    }
+
+    public function waitingList()
+    {
+        $users = User::where('is_approved', 'waiting')->get();
         return response()->json([
             'message' => 'Complete process.',
             'data' => $users
