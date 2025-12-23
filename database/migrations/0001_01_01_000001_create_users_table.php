@@ -22,7 +22,7 @@ return new class extends Migration
             $table->boolean('type')->default(0); // 0 for user - 1 for admin
             $table->foreignId('city_id')->constrained('cities', 'id');
             $table->date('birthday');
-            $table->boolean('is_approved')->default(0);
+            $table->enum('is_approved', ['approved', 'rejected', 'waiting'])->default('waiting');
             $table->string('photo')->nullable();
             $table->string('id_img')->nullable();
             $table->rememberToken();

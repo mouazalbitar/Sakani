@@ -29,8 +29,10 @@ class User extends Authenticatable
         'firstName',
         'lastName',
         'email',
+        'type',
         'city_id',
         'birthday',
+        'is_approved',
         'photo',
         'id_img'
     ];

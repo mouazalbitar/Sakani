@@ -28,53 +28,12 @@ class UserController extends Controller
         }
         $user = User::create($validated);
 
-        $otp = (string) rand(100000, 999999);
-        // صلاحية الرمز 5 دقائق
-        Cache::put('otp_' . $user->phone_number, $otp, now()->addMinutes(5));
-
-        // 2. إرسال الوظيفة إلى قائمة الانتظار
-        SendVerification::dispatch($user->phone_number, $otp);
         return response()->json([
             'message' => 'The User has Successfully Registered, Input The Verification code.',
             'data' => $user,
             'status' => 201
         ]);
     }
-
-
-    // AuthController.php
-
-    public function verifyWhatsapp(Request $request)
-    {
-        $request->validate([
-            // إزالة القيود المحلية، والاكتفاء بالتحقق من وجوده في جدول المستخدمين
-            'phone_number' => 'required|string|exists:users,phone_number',
-            'otp' => 'required|numeric|digits:6',
-        ]);
-
-        $storedOtp = Cache::get('otp_' . $request->phone_number);
-
-        if (!$storedOtp || $storedOtp != $request->otp) {
-            return response()->json(['message' => 'فشل التحقق. الرمز المدخل غير صحيح أو انتهت صلاحيته.'], 400);
-        }
-
-        $user = User::where('phone_number', $request->phone_number)->first();
-
-        // تحديث حقل التحقق
-        $user->phone_number_verified_at = now();
-        $user->save();
-
-        // إزالة الرمز من الكاش
-        Cache::forget('otp_' . $request->phone_number);
-
-        // تسجيل الدخول ومنح التوكن (بعد نجاح التحقق)
-
-        return response()->json([
-            'message' => 'تم تأكيد رقم الهاتف بنجاح وتم تسجيل الدخول.',
-            'user' => $user,
-        ], 200);
-    }
-
 
     public function login(LoginRequest $request)
     {
@@ -85,10 +44,16 @@ class UserController extends Controller
         $user = User::where('phone_number', $request->phone_number)
             ->with('cityData') // اسم الدالة يلي عاملة العلاقة
             ->firstOrFail();
-        if ($user->is_approved == 0) {
+        if ($user->is_approved == 'waiting') {
             Auth::logout();
             return response()->json([
                 'message' => 'Login Failed, Your Account has not been approved by the Admin.'
+            ], 401);
+        }
+        if ($user->is_approved == 'disapproved') {
+            Auth::logout();
+            return response()->json([
+                'message' => 'Login Failed, Your Account has been Rejected.'
             ], 401);
         }
         $token = $user->createToken('authToken')->plainTextToken;
@@ -98,6 +63,7 @@ class UserController extends Controller
             'token' => $token,
         ]);
     }
+
     public function loginAdmin(LoginRequest $request)
     {
         if (!Auth::attempt($request->only('phone_number', 'password')))
@@ -144,36 +110,28 @@ class UserController extends Controller
 
 
 
-
-
-
-
-
-
-
-
-
-
-
-    public function acceptUser($id)
+    public function acceptUser(int $id)
     {
         $user = User::findOrFail($id);
-        $user->is_approved = 1;
+        $user->is_approved = 'approved';
         $user->save();
         return response()->json([
             'message' => 'Complete Successfully.',
             'data' => $user
-        ], 201);
+        ], 200);
     }
 
+    public function rejectUser(int $id)
+    {
+        $user = User::findOrFail($id);
+        $user->is_approved = 'rejected';
+        $user->save();
+        return response()->json([
+            'message' => 'Complete Successfully.',
+            'data' => $user
+        ], 200);
+    }
 
-
-
-
-
-    /**
-     * Display a listing of the resource.
-     */
     public function index()
     {
         if (Auth::user()->type == 0) {
@@ -183,30 +141,21 @@ class UserController extends Controller
         }
         $users = User::all();
         return response()->json([
-            'message' => 'Complete process',
+            'message' => 'Complete process.',
             'data' => $users
         ], 200);
     }
 
-    /**
-     * Store a newly created resource in storage.
-     */
     public function store(Request $request)
     {
         //
     }
 
-    /**
-     * Display the specified resource.
-     */
     public function show(string $id)
     {
         //
     }
 
-    /**
-     * Update the specified resource in storage.
-     */
     public function updateProfile(UpdateUserDataRequest $request)
     {
         $userId = Auth::user()->id;

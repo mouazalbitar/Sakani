@@ -14,150 +14,111 @@ class UserSeeder extends Seeder
      */
     public function run(): void
     {
-        // User::create([
-        //     'phone_number' => '0965050015',
-        //     'password' => Hash::make('Mouaz#123'),
-        //     'firstName' => 'Mouaz',
-        //     'lastName' => 'Albitar',
-        //     'email' => 'mouazalbitar@gmail.com',
-        //     'city_id' => 1,
-        //     'birthday'=>'2000-01-01'
-        // ]);
+        User::create([
+            'phone_number' => '0965050015',
+            'password' => Hash::make('mouaz123'),
+            'firstName' => 'Mouaz',
+            'lastName' => 'Albitar',
+            'email' => 'mouazalbitar@gmail.com',
+            'type' => 1,
+            'city_id' => 1,
+            'birthday' => '2000-01-01',
+            'is_approved' => 'approved',
+            'photo'=>'UsersPhoto/mouaz1.jpg',
+            'id_img'=>'UsersIdPhoto/mouazid.jpg'
+        ]);
+        User::create([
+            'phone_number' => '0987654321',
+            'password' => Hash::make('ba123'),
+            'firstName' => 'Bayan',
+            'lastName' => 'Alhoure',
+            'email' => 'bayan@gmail.com',
+            'type' => 1,
+            'city_id' => 1,
+            'birthday' => '2000-01-01',
+            'is_approved' => 'approved',
+            'photo'=>'UsersPhoto/bayan1.jpg',
+            'id_img'=>'UsersIdPhoto/bayanid.jpg'
+        ]);
         User::create([
             'phone_number' => '0965050001',
-            'password' => Hash::make('Mouaz#123'),
+            'password' => Hash::make('mouaz123'),
             'firstName' => 'Ahmad',
             'lastName' => 'Albitar',
             'email' => 'ahm@gmail.com',
             'city_id' => 1,
-            'birthday' => '2000-01-01'
+            'birthday' => '2000-01-01',
+            'is_approved' => 'approved',
+            'photo'=>'UsersPhoto/photo2.jpg',
+            'id_img'=>'UsersIdPhoto/id2.jpg'
         ]);
         User::create([
             'phone_number' => '0965050002',
-            'password' => Hash::make('Mouaz#123'),
+            'password' => Hash::make('mouaz123'),
             'firstName' => 'Nour',
             'lastName' => 'Taibah',
             'email' => 'nor@gmail.com',
             'city_id' => 2,
-            'birthday' => '2000-01-01'
+            'birthday' => '2000-01-01',
+            'is_approved' => 'approved',
+            'photo'=>'UsersPhoto/photo3.jpg',
+            'id_img'=>'UsersIdPhoto/id3.jpg'
         ]);
         User::create([
             'phone_number' => '0965050003',
-            'password' => Hash::make('Mouaz#123'),
+            'password' => Hash::make('mouaz123'),
             'firstName' => 'Samer',
             'lastName' => 'Almasre',
             'email' => 'sam@gmail.com',
             'city_id' => 4,
-            'birthday' => '2000-01-01'
+            'birthday' => '2000-01-01',
+            'photo'=>'UsersPhoto/photo4.jpg',
+            'id_img'=>'UsersIdPhoto/id4.jpg'
         ]);
         User::create([
             'phone_number' => '0965050004',
-            'password' => Hash::make('Mouaz#123'),
+            'password' => Hash::make('mouaz123'),
             'firstName' => 'Sara',
             'lastName' => 'Sadek',
             'email' => 'sar@gmail.com',
-            'city_id' => 2,
-            'birthday' => '2000-01-01'
-        ]);
-        User::create([
-            'phone_number' => '0965050005',
-            'password' => Hash::make('Mouaz#123'),
-            'firstName' => 'Lana',
-            'lastName' => 'Deep',
-            'email' => 'lana@gmail.com',
-            'city_id' => 1,
-            'birthday' => '2000-01-01'
-        ]);
-        User::create([
-            'phone_number' => '0965050006',
-            'password' => Hash::make('Mouaz#123'),
-            'firstName' => 'Mohamad',
-            'lastName' => 'Attar',
-            'email' => 'moh@gmail.com',
             'city_id' => 3,
             'birthday' => '2000-01-01'
         ]);
         User::create([
-            'phone_number' => '0965050007',
-            'password' => Hash::make('Mouaz#123'),
-            'firstName' => 'Qusay',
-            'lastName' => 'Hamad',
-            'email' => 'qos@gmail.com',
-            'city_id' => 1,
-            'birthday' => '2000-01-01'
-        ]);
-        User::create([
-            'phone_number' => '0965050008',
-            'password' => Hash::make('Mouaz#123'),
-            'firstName' => 'Ahmad',
-            'lastName' => 'Saeed',
-            'email' => 'ahmm@gmail.com',
+            'phone_number' => '0965050005',
+            'password' => Hash::make('mouaz123'),
+            'firstName' => 'Samer',
+            'lastName' => 'Samer',
+            'email' => 'sam@gmail.com',
             'city_id' => 5,
             'birthday' => '2000-01-01'
         ]);
         User::create([
-            'phone_number' => '0965050009',
-            'password' => Hash::make('Mouaz#123'),
+            'phone_number' => '0965050006',
+            'password' => Hash::make('mouaz123'),
             'firstName' => 'Abd',
-            'lastName' => 'bitar',
+            'lastName' => 'Tinawe',
             'email' => 'abd@gmail.com',
             'city_id' => 5,
             'birthday' => '2000-01-01'
         ]);
         User::create([
-            'phone_number' => '0965050010',
+            'phone_number' => '0965050007',
             'password' => Hash::make('mouaz123'),
-            'firstName' => 'Abd',
-            'lastName' => 'bitar',
-            'email' => 'abd1@gmail.com',
-            'city_id' => 5,
+            'firstName' => 'Salam',
+            'lastName' => 'Ghrout',
+            'email' => 'sam@gmail.com',
+            'city_id' => 4,
             'birthday' => '2000-01-01'
         ]);
         User::create([
-            'phone_number' => '0965050011',
+            'phone_number' => '0965050008',
             'password' => Hash::make('mouaz123'),
-            'firstName' => 'Abd',
-            'lastName' => 'bitar',
-            'email' => 'abd2@gmail.com',
-            'city_id' => 5,
+            'firstName' => 'Farah',
+            'lastName' => 'Khito',
+            'email' => 'farah@gmail.com',
+            'city_id' => 3,
             'birthday' => '2000-01-01'
         ]);
-        User::create([
-            'phone_number' => '0965050012',
-            'password' => Hash::make('mouaz123'),
-            'firstName' => 'Abd',
-            'lastName' => 'bitar',
-            'email' => 'abd3@gmail.com',
-            'city_id' => 5,
-            'birthday' => '2000-01-01'
-        ]);
-        User::create([
-            'phone_number' => '0965050013',
-            'password' => Hash::make('mouaz123'),
-            'firstName' => 'Abd',
-            'lastName' => 'bitar',
-            'email' => 'abd4@gmail.com',
-            'city_id' => 5,
-            'birthday' => '2000-01-01'
-        ]);
-        User::create([
-            'phone_number' => '0965050014',
-            'password' => Hash::make('mouaz123'),
-            'firstName' => 'Abd',
-            'lastName' => 'bitar',
-            'email' => 'abd5@gmail.com',
-            'city_id' => 5,
-            'birthday' => '2000-01-01'
-        ]);
-        User::create([
-            'phone_number' => '0965050016',
-            'password' => Hash::make('mouaz123'),
-            'firstName' => 'Abd',
-            'lastName' => 'bitar',
-            'email' => 'abd6@gmail.com',
-            'city_id' => 5,
-            'birthday' => '2000-01-01'
-        ]);
-
     }
 }
