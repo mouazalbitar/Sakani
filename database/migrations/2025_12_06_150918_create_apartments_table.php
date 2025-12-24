@@ -15,7 +15,7 @@ return new class extends Migration
             $table->id();
             $table->foreignId('owner_id')->constrained('users', 'id');
             $table->string('governorate');
-            $table->foreignId('city_id')->constrained('cities', 'id');
+            // $table->foreignId('city_id')->constrained('cities', 'id');
             $table->string('street');
             $table->double('price')->unsigned();
             $table->integer('rooms')->unsigned()->default(1);

@@ -20,7 +20,7 @@ return new class extends Migration
             $table->string('lastName');
             $table->string('email');
             $table->boolean('type')->default(0); // 0 for user - 1 for admin
-            $table->foreignId('city_id')->constrained('cities', 'id');
+            // $table->foreignId('city_id')->constrained('cities', 'id');
             $table->date('birthday');
             $table->enum('is_approved', ['approved', 'rejected', 'waiting'])->default('waiting');
             $table->string('photo')->nullable();

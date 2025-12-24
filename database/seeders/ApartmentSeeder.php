@@ -16,7 +16,7 @@ class ApartmentSeeder extends Seeder
         Apartment::create([
             'owner_id' => 2, // 4 5 8
             'governorate' => 'Syria',
-            'city_id' => 1,
+            // 'city_id' => 1,
             'street' => 'Abo Romana',
             'price' => 25,
             'rooms' => 3,
@@ -30,7 +30,7 @@ class ApartmentSeeder extends Seeder
         Apartment::create([
             'owner_id' => 2, // 4 5 8
             'governorate' => 'Syria',
-            'city_id' => 1,
+            // 'city_id' => 1,
             'street' => 'Malki',
             'price' => 18,
             'rooms' => 1,
@@ -44,7 +44,7 @@ class ApartmentSeeder extends Seeder
         Apartment::create([
             'owner_id' => 5, // 4 5 8
             'governorate' => 'Syria',
-            'city_id' => 2,
+            // 'city_id' => 2,
             'street' => 'Enshaat',
             'price' => 15,
             'rooms' => 2,
@@ -58,7 +58,7 @@ class ApartmentSeeder extends Seeder
         Apartment::create([
             'owner_id' => 5, // 4 5 8
             'governorate' => 'Syria',
-            'city_id' => 2,
+            // 'city_id' => 2,
             'street' => 'Ghota',
             'price' => 20,
             'rooms' => 4,
@@ -72,7 +72,7 @@ class ApartmentSeeder extends Seeder
         Apartment::create([
             'owner_id' => 8, // 4 5 8
             'governorate' => 'Syria',
-            'city_id' => 1,
+            // 'city_id' => 1,
             'street' => 'Midan',
             'price' => 10,
             'rooms' => 2,
@@ -85,7 +85,7 @@ class ApartmentSeeder extends Seeder
         Apartment::create([
             'owner_id' => 4, // 4 5 8
             'governorate' => 'Syria',
-            'city_id' => 4,
+            // 'city_id' => 4,
             'street' => 'Alzeraa',
             'price' => 12,
             'rooms' => 2,
@@ -99,7 +99,7 @@ class ApartmentSeeder extends Seeder
         Apartment::create([
             'owner_id' => 8, // 4 5 8
             'governorate' => 'Syria',
-            'city_id' => 3,
+            // 'city_id' => 3,
             'street' => 'Ashrafee',
             'price' => 22,
             'rooms' => 3,

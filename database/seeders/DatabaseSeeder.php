@@ -31,6 +31,7 @@ class DatabaseSeeder extends Seeder
         // Storage::disk('public')->makeDirectory('ApartmentsPhoto');
 
         $this->call([
+            GovernorateSeeder::class,
             CitySeeder::class,
             UserSeeder::class,
             ApartmentSeeder::class,

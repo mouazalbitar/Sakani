@@ -24,7 +24,7 @@ class AddApartmentRequest extends FormRequest
     {
         return [
             'governorate' => ['string', 'required', 'min:3'],
-            'city_id' => ['integer', 'required', 'exists:cities,id'],
+            'city_id' => ['integer', 'exists:cities,id'], // 'required',
             'street' => ['string', 'required', 'min:3'],
             'price' => ['integer', 'min:1'],
             'rooms' => ['integer', 'min:1'],

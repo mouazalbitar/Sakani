@@ -40,8 +40,8 @@ Route::middleware('auth:sanctum')
         Route::get('/avaliable_apartments', 'avaliable_apartment');
         Route::get('/waiting_apartments', 'waitingList')->middleware('isAdmin');
         Route::get('/rejected_apartments', 'rejectedList')->middleware('isAdmin');
-        Route::get('/accept/{id}', 'accept_apartment')->middleware('isAdmin');
-        Route::get('/reject/{id}', 'reject_apartment')->middleware('isAdmin');
+        Route::put('/accept/{id}', 'accept_apartment')->middleware('isAdmin');
+        Route::put('/reject/{id}', 'reject_apartment')->middleware('isAdmin');
         Route::post('/add_apartment', 'add_apartment');
     });
 

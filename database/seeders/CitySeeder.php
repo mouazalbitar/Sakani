@@ -8,20 +8,65 @@ use Illuminate\Database\Seeder;
 
 class CitySeeder extends Seeder
 {
-    /**
-     * Run the database seeds.
-     */
     public function run(): void
     {
-        $cities = [
-            'Damascus',
-            'Homs',
-            'Aleppo',
-            'Latakia',
-            'Hama'
+        $damascusCities = [
+            'Midan',
+            'Mazzeh',
+            'KafarSouseh',
+            'AboRimaneh',
+            'Mallkie',
+            'Shagour'
         ];
-        foreach ($cities as $city) {
-            City::create(['city'=>$city]);
+        foreach ($damascusCities as $city) {
+            City::create([
+                'govId' => 1,
+                'city' => $city
+            ]);
+        }
+
+        $rifDamascusCities = [
+            'Zabadani',
+            'Daraya',
+            'Qara',
+            'Dmeer',
+            'Bakeen',
+            'Yabrod'
+        ];
+        foreach ($rifDamascusCities as $city) {
+            City::create([
+                'govId' => 2,
+                'city' => $city
+            ]);
+        }
+
+        $homsCities = [
+            'Al_Qusayr',
+            'Rastan',
+            'Tadmur',
+            'Al_Houla',
+            'Al_Hamidiyah',
+            'Al_Enshaate',
+            'Al_Waeer'
+        ];
+        foreach ($homsCities as $city) {
+            City::create([
+                'govId' => 3,
+                'city' => $city
+            ]);
+        }
+
+        $allepoCities = [
+            'Al_Ashrafee',
+            'Al_Shahbaa',
+            'Al-Bab',
+            'Jarabulus',
+        ];
+        foreach ($allepoCities as $city) {
+            City::create([
+                'govId' => 4,
+                'city' => $city
+            ]);
         }
     }
 }
