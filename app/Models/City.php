@@ -12,7 +12,7 @@ class City extends Model
         'city'
     ];
     protected $hidden = [
-        'govId',
+        // 'govId',
         'created_at',
         'updated_at'
     ];

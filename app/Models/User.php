@@ -44,7 +44,7 @@ class User extends Authenticatable
         'number_verified_at',
         'password',
         'remember_token',
-        // 'city_id', // خفيت هاد الرقم لانو هو حقل موجود بالقاعدة 
+        'city_id', // خفيت هاد الرقم لانو هو حقل موجود بالقاعدة 
         // 'cityData', // خفيت هاد الحقل لانو بينبعت بسبب (with->('cityData')) وانا بدي بس اسم المدينة 
         'photo',
         'id_img',

@@ -41,7 +41,7 @@ class UserController extends Controller
             return response()->json([
                 'message' => 'Login Failed, Incorrect Phone Number or Password.',
             ], 404);
-        $user = User::where('phone_number', $request->phone_number)->firstOrFail();
+        $user = User::where('phone_number', $request->phone_number)->with('city')->firstOrFail();
         if ($user->is_approved == 'waiting') {
             Auth::logout();
             return response()->json([
@@ -55,6 +55,10 @@ class UserController extends Controller
             ], 401);
         }
         $token = $user->createToken('authToken')->plainTextToken;
+        $user->makehidden([
+            'created_at',
+            'updated_at'
+        ]);
         return response()->json([
             'message' => 'Login Successful',
             'data' => $user,
@@ -130,7 +134,7 @@ class UserController extends Controller
 
     public function index()
     {
-        $users = User::all();
+        $users = User::all()->load('city');
         return response()->json([
             'message' => 'Complete process.',
             'data' => $users
