@@ -26,14 +26,14 @@ class City extends Model
     // {
     //     return $this->hasMany(Apartment::class);
     // }
-    public function governorate()
+    public function gov_relation()
     {
         return $this->belongsTo(Governorate::class, 'govId', 'id');
     }
     public function getGovernorateAttribute(): Attribute
     {
         return Attribute::make(
-            get: fn () => $this->governorate->governorate ?? null
+            get: fn () => $this->gov_relation->governorate ?? null
         );
     }
 }
