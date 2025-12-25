@@ -76,7 +76,7 @@ class User extends Authenticatable
 
     protected function getAddressAttribute()
     {
-        return $this->city->governorate->governorate . ' - ' . $this->city->city;
+        return $this->city->gov_relation->governorate . ' - ' . $this->city->city;
     }
 
     public function bookings()

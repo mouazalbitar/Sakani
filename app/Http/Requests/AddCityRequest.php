@@ -4,7 +4,7 @@ namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
 
-class AddGovernorateRequest extends FormRequest
+class AddCityRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -22,7 +22,8 @@ class AddGovernorateRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'governorate' => ['string', 'required', 'min:3', 'max:25', 'unique:governorates,governorate'],
+            'govId' => ['integer', 'required', 'exists:governorates,id', 'min:1'],
+            'city' => ['string', 'required', 'unique:cities,city', 'max:50'],
         ];
     }
 }

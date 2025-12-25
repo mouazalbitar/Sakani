@@ -9,14 +9,16 @@ class City extends Model
 {
     protected $table = 'cities';
     protected $fillable = [
+        'govId',
         'city'
     ];
     protected $hidden = [
+        'gov_relation',
         'created_at',
         'updated_at'
     ];
     protected $appends = [
-        'govName'
+        'governorate'
     ];
     public function users()
     {
@@ -30,10 +32,8 @@ class City extends Model
     {
         return $this->belongsTo(Governorate::class, 'govId', 'id');
     }
-    public function getGovNameAttribute(): Attribute
+    public function getGovernorateAttribute()
     {
-        return Attribute::make(
-            get: fn () => $this->gov_relation->governorate
-        );
+        return  $this->gov_relation->governorate;
     }
 }
