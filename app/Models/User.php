@@ -53,7 +53,8 @@ class User extends Authenticatable
     protected $appends = [
         //     'city_name', // هاد الحقل يلي بدو يحوي اسم المدينة 
         'photo_url',
-        'id_img_url'
+        'id_img_url',
+        'address'
     ]; // ملاحظة: ازا اضفت شي وما عملتلو دالتو بيطلع اكسبشن باسم هاد الشي ومعها attribute
 
     /**
@@ -80,6 +81,10 @@ class User extends Authenticatable
     //         get: fn() => $this->cityData->city ?? null
     //     );
     // }
+
+    protected function getAddressAttribute() {
+        return $this->city->governorate->governorate . ' - ' . $this->city->city;
+    }
 
     public function bookings()
     {
