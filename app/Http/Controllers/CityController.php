@@ -9,7 +9,7 @@ class CityController extends Controller
 {
     public function index()
     {
-        $cities = City::all()->load('governorate'); // العلاقة
+        $cities = City::all();
         return response()->json([
             'message' => 'Complete Successfully.',
             'data' => $cities

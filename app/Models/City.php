@@ -12,9 +12,11 @@ class City extends Model
         'city'
     ];
     protected $hidden = [
-        // 'govId',
         'created_at',
         'updated_at'
+    ];
+    protected $appends = [
+        'governorate'
     ];
     public function users()
     {
@@ -28,10 +30,10 @@ class City extends Model
     {
         return $this->belongsTo(Governorate::class, 'govId', 'id');
     }
-    // public function getGovernorateAttribute(): Attribute
-    // {
-    //     return Attribute::make(
-    //         get: fn() => $this->governorate() ?? null
-    //     );
-    // }
+    public function getGovernorateAttribute(): Attribute
+    {
+        return Attribute::make(
+            get: fn () => $this->governorate->governorate ?? null
+        );
+    }
 }

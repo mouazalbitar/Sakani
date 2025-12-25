@@ -57,7 +57,7 @@ Route::middleware('auth:sanctum')
     ->controller(GovernorateController::class)
     ->prefix('/gov')
     ->group(function () {
-        Route::get('/getAll', 'index')->middleware('isAdmin');
+        Route::get('/getAll', 'index');
         Route::post('/addGovernorate', 'store')->middleware('isAdmin');
         Route::put('/editGovernorate/{id}', 'update')->middleware('isAdmin');
     });
@@ -67,7 +67,8 @@ Route::middleware('auth:sanctum')
     ->controller(CityController::class)
     ->prefix('/city')
     ->group(function () {
-        Route::get('/getAll', 'index')->middleware('isAdmin');
+        Route::get('/getAll', 'index');
+        Route::get('/getCities/{id}', 'showCities');
         Route::post('/addGovernorate', 'store')->middleware('isAdmin');
         Route::put('/editGovernorate/{id}', 'update')->middleware('isAdmin');
     });
