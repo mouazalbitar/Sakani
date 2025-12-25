@@ -16,7 +16,7 @@ class City extends Model
         'updated_at'
     ];
     protected $appends = [
-        'governorate'
+        'govName'
     ];
     public function users()
     {
@@ -30,10 +30,10 @@ class City extends Model
     {
         return $this->belongsTo(Governorate::class, 'govId', 'id');
     }
-    public function getGovernorateAttribute(): Attribute
+    public function getGovNameAttribute(): Attribute
     {
         return Attribute::make(
-            get: fn () => $this->gov_relation->governorate ?? null
+            get: fn () => $this->gov_relation->governorate
         );
     }
 }
