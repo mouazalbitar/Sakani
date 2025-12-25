@@ -41,7 +41,7 @@ class UserController extends Controller
             return response()->json([
                 'message' => 'Login Failed, Incorrect Phone Number or Password.',
             ], 404);
-        $user = User::where('phone_number', $request->phone_number)->with('city')->firstOrFail();
+        $user = User::where('phone_number', $request->phone_number)->with('city.governorate')->firstOrFail();
         if ($user->is_approved == 'waiting') {
             Auth::logout();
             return response()->json([
