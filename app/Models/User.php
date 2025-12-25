@@ -45,13 +45,12 @@ class User extends Authenticatable
         'password',
         'remember_token',
         'city_id', // خفيت هاد الرقم لانو هو حقل موجود بالقاعدة 
-        // 'cityData', // خفيت هاد الحقل لانو بينبعت بسبب (with->('cityData')) وانا بدي بس اسم المدينة 
+        'city', // بسبب Accessor بيتحمل هاد الحقل بالرد بسبب العلاقة يلي تنفذت، لهيك بخفيه من الرد
         'photo',
         'id_img',
     ];
 
     protected $appends = [
-        //     'city_name', // هاد الحقل يلي بدو يحوي اسم المدينة 
         'photo_url',
         'id_img_url',
         'address'
@@ -75,14 +74,8 @@ class User extends Authenticatable
         return $this->belongsTo(City::class, 'city_id', 'id');
     }
 
-    // protected function cityName(): Attribute
-    // {
-    //     return Attribute::make(
-    //         get: fn() => $this->cityData->city ?? null
-    //     );
-    // }
-
-    protected function getAddressAttribute() {
+    protected function getAddressAttribute()
+    {
         return $this->city->governorate->governorate . ' - ' . $this->city->city;
     }
 

@@ -134,7 +134,7 @@ class UserController extends Controller
 
     public function index()
     {
-        $users = User::all()->load('city');
+        $users = User::all();
         return response()->json([
             'message' => 'Complete process.',
             'data' => $users
