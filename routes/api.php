@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\ApartmentController;
+use App\Http\Controllers\CityController;
 use App\Http\Controllers\GovernorateController;
 use App\Http\Controllers\ReviewController;
 use App\Http\Controllers\UserController;
@@ -55,6 +56,16 @@ Route::middleware('auth:sanctum')->prefix('/reviwe')->group(function () {
 Route::middleware('auth:sanctum')
     ->controller(GovernorateController::class)
     ->prefix('/gov')
+    ->group(function () {
+        Route::get('/getAll', 'index')->middleware('isAdmin');
+        Route::post('/addGovernorate', 'store')->middleware('isAdmin');
+        Route::put('/editGovernorate/{id}', 'update')->middleware('isAdmin');
+    });
+
+
+Route::middleware('auth:sanctum')
+    ->controller(CityController::class)
+    ->prefix('/city')
     ->group(function () {
         Route::get('/getAll', 'index')->middleware('isAdmin');
         Route::post('/addGovernorate', 'store')->middleware('isAdmin');

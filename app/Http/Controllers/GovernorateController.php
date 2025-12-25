@@ -13,7 +13,8 @@ class GovernorateController extends Controller
     {
         $gov = Governorate::all();
         return response()->json([
-            'message' => $gov
+            'message' => 'Complete Successfully.',
+            'data'=>$gov
         ], 200);
     }
 
