@@ -11,7 +11,7 @@ class AddGovernorateRequest extends FormRequest
      */
     public function authorize(): bool
     {
-        return false;
+        return true;
     }
 
     /**
@@ -22,7 +22,7 @@ class AddGovernorateRequest extends FormRequest
     public function rules(): array
     {
         return [
-            //
+            'governorate' => ['string', 'required', 'min:3', 'max:25']
         ];
     }
 }
