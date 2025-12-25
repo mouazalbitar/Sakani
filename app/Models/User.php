@@ -2,8 +2,6 @@
 
 namespace App\Models;
 
-// use Illuminate\Contracts\Auth\MustVerifyEmail;
-
 use Illuminate\Container\Attributes\Storage;
 use Illuminate\Database\Eloquent\Casts\Attribute;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
@@ -53,7 +51,7 @@ class User extends Authenticatable
     ];
 
     protected $appends = [
-    //     'city_name', // هاد الحقل يلي بدو يحوي اسم المدينة 
+        //     'city_name', // هاد الحقل يلي بدو يحوي اسم المدينة 
         'photo_url',
         'id_img_url'
     ]; // ملاحظة: ازا اضفت شي وما عملتلو دالتو بيطلع اكسبشن باسم هاد الشي ومعها attribute
@@ -71,10 +69,10 @@ class User extends Authenticatable
         ];
     }
 
-    // public function cityData()
-    // {
-    //     return $this->belongsTo(City::class, 'city_id', 'id');
-    // }
+    public function city()
+    {
+        return $this->belongsTo(City::class, 'city_id', 'id');
+    }
 
     // protected function cityName(): Attribute
     // {
@@ -124,7 +122,8 @@ class User extends Authenticatable
         );
     }
 
-    public function reviews(){
+    public function reviews()
+    {
         return $this->hasMany(Review::class);
     }
 }

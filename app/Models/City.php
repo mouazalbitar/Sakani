@@ -7,6 +7,7 @@ use Illuminate\Database\Eloquent\Model;
 
 class City extends Model
 {
+    protected $table = 'cities';
     protected $fillable = [
         'city'
     ];
@@ -15,10 +16,10 @@ class City extends Model
         'created_at',
         'updated_at'
     ];
-    // public function users()
-    // {
-    //     return $this->hasMany(User::class);
-    // }
+    public function users()
+    {
+        return $this->hasMany(User::class);
+    }
     // public function apartments()
     // {
     //     return $this->hasMany(Apartment::class);
