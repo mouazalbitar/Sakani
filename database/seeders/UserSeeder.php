@@ -21,7 +21,7 @@ class UserSeeder extends Seeder
             'lastName' => 'Albitar',
             'email' => 'mouazalbitar@gmail.com',
             'type' => 1,
-            // 'city_id' => 1,
+            'city_id' => 1,
             'birthday' => '2000-01-01',
             'is_approved' => 'approved',
             'photo'=>'UsersPhoto/mouaz1.jpg',
@@ -34,7 +34,7 @@ class UserSeeder extends Seeder
             'lastName' => 'Alhoure',
             'email' => 'bayan@gmail.com',
             'type' => 1,
-            // 'city_id' => 1,
+            'city_id' => 5,
             'birthday' => '2000-01-01',
             'is_approved' => 'approved',
             'photo'=>'UsersPhoto/bayan1.jpg',
@@ -46,7 +46,7 @@ class UserSeeder extends Seeder
             'firstName' => 'Ahmad',
             'lastName' => 'Albitar',
             'email' => 'ahm@gmail.com',
-            // 'city_id' => 1,
+            'city_id' => 8,
             'birthday' => '2000-01-01',
             'is_approved' => 'approved',
             'photo'=>'UsersPhoto/photo2.jpg',
@@ -58,7 +58,7 @@ class UserSeeder extends Seeder
             'firstName' => 'Nour',
             'lastName' => 'Taibah',
             'email' => 'nor@gmail.com',
-            // 'city_id' => 2,
+            'city_id' => 20,
             'birthday' => '2000-01-01',
             'is_approved' => 'approved',
             'photo'=>'UsersPhoto/photo3.jpg',
@@ -70,7 +70,7 @@ class UserSeeder extends Seeder
             'firstName' => 'Samer',
             'lastName' => 'Almasre',
             'email' => 'sam@gmail.com',
-            // 'city_id' => 4,
+            'city_id' => 18,
             'birthday' => '2000-01-01',
             'photo'=>'UsersPhoto/photo4.jpg',
             'id_img'=>'UsersIdPhoto/id4.jpg'
@@ -81,7 +81,7 @@ class UserSeeder extends Seeder
             'firstName' => 'Sara',
             'lastName' => 'Sadek',
             'email' => 'sar@gmail.com',
-            // 'city_id' => 3,
+            'city_id' => 15,
             'birthday' => '2000-01-01'
         ]);
         User::create([
@@ -90,7 +90,7 @@ class UserSeeder extends Seeder
             'firstName' => 'Samer',
             'lastName' => 'Samer',
             'email' => 'sam@gmail.com',
-            // 'city_id' => 5,
+            'city_id' => 10,
             'birthday' => '2000-01-01'
         ]);
         User::create([
@@ -99,7 +99,7 @@ class UserSeeder extends Seeder
             'firstName' => 'Abd',
             'lastName' => 'Tinawe',
             'email' => 'abd@gmail.com',
-            // 'city_id' => 5,
+            'city_id' => 22,
             'birthday' => '2000-01-01',
             'is_approved' => 'rejected'
         ]);
@@ -109,7 +109,7 @@ class UserSeeder extends Seeder
             'firstName' => 'Salam',
             'lastName' => 'Ghrout',
             'email' => 'sam@gmail.com',
-            // 'city_id' => 4,
+            'city_id' => 2,
             'birthday' => '2000-01-01',
             'is_approved' => 'rejected'
         ]);
@@ -119,7 +119,7 @@ class UserSeeder extends Seeder
             'firstName' => 'Farah',
             'lastName' => 'Khito',
             'email' => 'farah@gmail.com',
-            // 'city_id' => 3,
+            'city_id' => 11,
             'birthday' => '2000-01-01'
         ]);
     }

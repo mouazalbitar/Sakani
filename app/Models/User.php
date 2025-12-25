@@ -46,14 +46,14 @@ class User extends Authenticatable
         'number_verified_at',
         'password',
         'remember_token',
-        'city_id', // خفيت هاد الرقم لانو هو حقل موجود بالقاعدة 
-        'cityData', // خفيت هاد الحقل لانو بينبعت بسبب (with->('cityData')) وانا بدي بس اسم المدينة 
+        // 'city_id', // خفيت هاد الرقم لانو هو حقل موجود بالقاعدة 
+        // 'cityData', // خفيت هاد الحقل لانو بينبعت بسبب (with->('cityData')) وانا بدي بس اسم المدينة 
         'photo',
         'id_img',
     ];
 
     protected $appends = [
-        'city_name', // هاد الحقل يلي بدو يحوي اسم المدينة 
+    //     'city_name', // هاد الحقل يلي بدو يحوي اسم المدينة 
         'photo_url',
         'id_img_url'
     ]; // ملاحظة: ازا اضفت شي وما عملتلو دالتو بيطلع اكسبشن باسم هاد الشي ومعها attribute
@@ -71,17 +71,17 @@ class User extends Authenticatable
         ];
     }
 
-    public function cityData()
-    {
-        return $this->belongsTo(City::class, 'city_id', 'id');
-    }
+    // public function cityData()
+    // {
+    //     return $this->belongsTo(City::class, 'city_id', 'id');
+    // }
 
-    protected function cityName(): Attribute
-    {
-        return Attribute::make(
-            get: fn() => $this->cityData->city ?? null
-        );
-    }
+    // protected function cityName(): Attribute
+    // {
+    //     return Attribute::make(
+    //         get: fn() => $this->cityData->city ?? null
+    //     );
+    // }
 
     public function bookings()
     {
