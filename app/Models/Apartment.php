@@ -10,9 +10,8 @@ class Apartment extends Model
 {
     protected $fillable = [
         'owner_id',
-        'governorate',
+        'governorate_id',
         'city_id',
-        'street',
         'price',
         'rooms',
         'size',
@@ -26,8 +25,6 @@ class Apartment extends Model
 
     protected $hidden = [
         'owner_id',
-        'city_id',
-        'city_data',
         'img1',
         'img2',
         'img3',
@@ -36,7 +33,6 @@ class Apartment extends Model
     ];
 
     protected $appends = [
-        // 'city_name',
         'img1_url',
         'img2_url',
         'img3_url'
@@ -45,36 +41,33 @@ class Apartment extends Model
     public function getImg1UrlAttribute(): ?string
     {
         if ($this->img1) {
-            return asset('storage/' . $this->img1); 
+            return asset('storage/' . $this->img1);
         }
         return null;
     }
     public function getImg2UrlAttribute(): ?string
     {
         if ($this->img2) {
-            return asset('storage/' . $this->img2); 
+            return asset('storage/' . $this->img2);
         }
         return null;
     }
     public function getImg3UrlAttribute(): ?string
     {
         if ($this->img3) {
-            return asset('storage/' . $this->img3); 
+            return asset('storage/' . $this->img3);
         }
         return null;
     }
 
-
-    public function cityData()
+    public function gov_relation()
     {
-        return $this->belongsTo(City::class, 'city_id', 'id');
+        return $this->belongsTo(Governorate::class, 'governorate_id', 'id');
     }
 
-    protected function cityName(): Attribute
+    public function city_relation()
     {
-        return Attribute::make(
-            get: fn() => $this->cityData->city ?? null
-        );
+        return $this->belongsTo(City::class, 'city_id', 'id');
     }
 
     public function owner()
@@ -91,5 +84,4 @@ class Apartment extends Model
     {
         return $this->hasMany(Review::class);
     }
-
 }

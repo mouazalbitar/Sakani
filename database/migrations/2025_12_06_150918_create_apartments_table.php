@@ -14,9 +14,8 @@ return new class extends Migration
         Schema::create('apartments', function (Blueprint $table) {
             $table->id();
             $table->foreignId('owner_id')->constrained('users', 'id');
-            $table->string('governorate');
-            // $table->foreignId('city_id')->constrained('cities', 'id');
-            $table->string('street');
+            $table->foreignId('governorate_id')->constrained('governorates', 'id');
+            $table->foreignId('city_id')->constrained('cities', 'id');
             $table->double('price')->unsigned();
             $table->integer('rooms')->unsigned()->default(1);
             $table->integer('size')->unsigned();
@@ -25,7 +24,7 @@ return new class extends Migration
             $table->text('details')->nullable();
             $table->string('img1')->nullable();
             $table->string('img2')->nullable();
-            $table->string('img3')->nullable();
+            $table->string( 'img3')->nullable();
             $table->timestamps();
         });
     }

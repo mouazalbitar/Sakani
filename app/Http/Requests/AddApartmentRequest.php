@@ -3,6 +3,8 @@
 namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
+use Illuminate\Http\Request;
+use Illuminate\Validation\Rule;
 use Illuminate\Validation\Rules\In;
 
 class AddApartmentRequest extends FormRequest
@@ -23,17 +25,24 @@ class AddApartmentRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'governorate' => ['string', 'required', 'min:3'],
-            'city_id' => ['integer', 'exists:cities,id'], // 'required',
-            'street' => ['string', 'required', 'min:3'],
+            'governorate_id' => ['integer', 'required', 'exists:governorates,id', 'exists:cities,govId', 'min:1'],
+            'city_id' => [
+                'integer',
+                'required',
+                'exists:cities,id',
+                'min:1',
+                Rule::exists('cities', 'id')->where(function ($query) {
+                    return $query->where('governorate_id', $this->governorate_id);
+                })
+            ],
             'price' => ['integer', 'min:1'],
             'rooms' => ['integer', 'min:1'],
             'size' => ['integer', 'min:1'],
             'condition' => ['string', 'required', 'in:deluxe,new,normal'],
             'details' => ['string'],
-            'img1'=>['nullable', 'image', 'mimes:png,jpg,jpeg', 'max:4096'], //'required', 
-            'img2'=>['nullable', 'image', 'mimes:png,jpg,jpeg', 'max:4096'],
-            'img3'=>['nullable', 'image', 'mimes:png,jpg,jpeg', 'max:4096']
+            'img1' => ['nullable', 'image', 'mimes:png,jpg,jpeg', 'max:4096'], //'required', 
+            'img2' => ['nullable', 'image', 'mimes:png,jpg,jpeg', 'max:4096'],
+            'img3' => ['nullable', 'image', 'mimes:png,jpg,jpeg', 'max:4096']
         ];
     }
 }

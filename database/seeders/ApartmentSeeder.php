@@ -15,9 +15,8 @@ class ApartmentSeeder extends Seeder
     {
         Apartment::create([
             'owner_id' => 2, // 4 5 8
-            'governorate' => 'Syria',
-            // 'city_id' => 1,
-            'street' => 'Abo Romana',
+            'governorate_id' => 1,
+            'city_id' => 1,
             'price' => 25,
             'rooms' => 3,
             'size' => 90,
@@ -29,9 +28,8 @@ class ApartmentSeeder extends Seeder
         ]);
         Apartment::create([
             'owner_id' => 2, // 4 5 8
-            'governorate' => 'Syria',
-            // 'city_id' => 1,
-            'street' => 'Malki',
+            'governorate_id' => 2,
+            'city_id' => 9,
             'price' => 18,
             'rooms' => 1,
             'size' => 40,
@@ -43,9 +41,8 @@ class ApartmentSeeder extends Seeder
         ]);
         Apartment::create([
             'owner_id' => 5, // 4 5 8
-            'governorate' => 'Syria',
-            // 'city_id' => 2,
-            'street' => 'Enshaat',
+            'governorate_id' => 1,
+            'city_id' => 5,
             'price' => 15,
             'rooms' => 2,
             'size' => 75,
@@ -57,9 +54,8 @@ class ApartmentSeeder extends Seeder
         ]);
         Apartment::create([
             'owner_id' => 5, // 4 5 8
-            'governorate' => 'Syria',
-            // 'city_id' => 2,
-            'street' => 'Ghota',
+            'governorate_id' => 3,
+            'city_id' => 18,
             'price' => 20,
             'rooms' => 4,
             'size' => 110,
@@ -71,9 +67,8 @@ class ApartmentSeeder extends Seeder
         ]);
         Apartment::create([
             'owner_id' => 8, // 4 5 8
-            'governorate' => 'Syria',
-            // 'city_id' => 1,
-            'street' => 'Midan',
+            'governorate_id' => 3,
+            'city_id' => 15,
             'price' => 10,
             'rooms' => 2,
             'size' => 60,
@@ -84,9 +79,8 @@ class ApartmentSeeder extends Seeder
         ]);
         Apartment::create([
             'owner_id' => 4, // 4 5 8
-            'governorate' => 'Syria',
-            // 'city_id' => 4,
-            'street' => 'Alzeraa',
+            'governorate_id' => 4,
+            'city_id' => 20,
             'price' => 12,
             'rooms' => 2,
             'size' => 60,
@@ -98,13 +92,76 @@ class ApartmentSeeder extends Seeder
         ]);
         Apartment::create([
             'owner_id' => 8, // 4 5 8
-            'governorate' => 'Syria',
-            // 'city_id' => 3,
-            'street' => 'Ashrafee',
+            'governorate_id' => 1,
+            'city_id' => 3,
             'price' => 22,
             'rooms' => 3,
             'size' => 100,
             'condition' => 'new',
+            'img1' => 'ApartmentsPhoto/apart7.jpg',
+            'img2' => 'ApartmentsPhoto/apart7.jpg',
+            'img3' => 'ApartmentsPhoto/apart7.jpg'
+        ]);
+        Apartment::create([
+            'owner_id' => 5, // 4 5 8
+            'governorate_id' => 2,
+            'city_id' => 7,
+            'price' => 20,
+            'rooms' => 4,
+            'size' => 100,
+            'condition' => 'deluxe',
+            'img1' => 'ApartmentsPhoto/apart7.jpg',
+            'img2' => 'ApartmentsPhoto/apart7.jpg',
+            'img3' => 'ApartmentsPhoto/apart7.jpg'
+        ]);
+        Apartment::create([
+            'owner_id' => 4, // 4 5 8
+            'governorate_id' => 4,
+            'city_id' => 22,
+            'price' => 15,
+            'rooms' => 2,
+            'size' => 110,
+            'condition' => 'normal',
+            'is_approved' => 'rejected',
+            'img1' => 'ApartmentsPhoto/apart8.jpg',
+            'img2' => 'ApartmentsPhoto/apart8.jpg',
+            'img3' => 'ApartmentsPhoto/apart8.jpg'
+        ]);
+        Apartment::create([
+            'owner_id' => 4, // 4 5 8
+            'governorate_id' => 3,
+            'city_id' => 17,
+            'price' => 25,
+            'rooms' => 6,
+            'size' => 150,
+            'condition' => 'deluxe',
+            'img1' => 'ApartmentsPhoto/apart9.jpg',
+            'img2' => 'ApartmentsPhoto/apart9.jpg',
+            'img3' => 'ApartmentsPhoto/apart9.jpg'
+        ]);
+        Apartment::create([
+            'owner_id' => 4, // 4 5 8
+            'governorate_id' => 3,
+            'city_id' => 19,
+            'price' => 15,
+            'rooms' => 5,
+            'size' => 150,
+            'condition' => 'new',
+            'img1' => 'ApartmentsPhoto/apart10.jpg',
+            'img2' => 'ApartmentsPhoto/apart10.jpg',
+            'img3' => 'ApartmentsPhoto/apart10.jpg'
+        ]);
+        Apartment::create([
+            'owner_id' => 5, // 4 5 8
+            'governorate_id' => 1,
+            'city_id' => 4,
+            'price' => 23,
+            'rooms' => 2,
+            'size' => 85,
+            'condition' => 'normal',
+            'img1' => 'ApartmentsPhoto/apart11.jpg',
+            'img2' => 'ApartmentsPhoto/apart11.jpg',
+            'img3' => 'ApartmentsPhoto/apart11.jpg'
         ]);
     }
 }

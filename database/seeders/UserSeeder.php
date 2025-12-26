@@ -72,6 +72,7 @@ class UserSeeder extends Seeder
             'email' => 'sam@gmail.com',
             'city_id' => 18,
             'birthday' => '2000-01-01',
+            'is_approved' => 'approved',
             'photo'=>'UsersPhoto/photo4.jpg',
             'id_img'=>'UsersIdPhoto/id4.jpg'
         ]);
@@ -101,7 +102,7 @@ class UserSeeder extends Seeder
             'email' => 'abd@gmail.com',
             'city_id' => 22,
             'birthday' => '2000-01-01',
-            'is_approved' => 'rejected'
+            'is_approved' => 'approved',
         ]);
         User::create([
             'phone_number' => '0965050007',
