@@ -22,9 +22,9 @@ return new class extends Migration
             $table->enum('condition', ['deluxe', 'new', 'normal']);
             $table->enum('is_approved', ['approved', 'rejected', 'waiting'])->default('waiting');
             $table->text('details')->nullable();
-            $table->string('img1')->nullable();
-            $table->string('img2')->nullable();
-            $table->string( 'img3')->nullable();
+            $table->string('img1_path')->nullable();
+            $table->string('img2_path')->nullable();
+            $table->string('img3_path')->nullable();
             $table->timestamps();
         });
     }

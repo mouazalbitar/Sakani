@@ -22,9 +22,9 @@ class ApartmentSeeder extends Seeder
             'size' => 90,
             'condition' => 'deluxe',
             'is_approved' => 'approved',
-            'img1' => 'ApartmentsPhoto/apart1.jpg',
-            'img2' => 'ApartmentsPhoto/apart1.jpg',
-            'img3' => 'ApartmentsPhoto/apart1.jpg'
+            'img1_path' => 'ApartmentsPhoto/apart1.jpg',
+            'img2_path' => 'ApartmentsPhoto/apart1.jpg',
+            'img3_path' => 'ApartmentsPhoto/apart1.jpg'
         ]);
         Apartment::create([
             'owner_id' => 2, // 4 5 8
@@ -35,9 +35,9 @@ class ApartmentSeeder extends Seeder
             'size' => 40,
             'condition' => 'deluxe',
             'is_approved' => 'approved',
-            'img1' => 'ApartmentsPhoto/apart2.jpg',
-            'img2' => 'ApartmentsPhoto/apart2.jpg',
-            'img3' => 'ApartmentsPhoto/apart2.jpg'
+            'img1_path' => 'ApartmentsPhoto/apart2.jpg',
+            'img2_path' => 'ApartmentsPhoto/apart2.jpg',
+            'img3_path' => 'ApartmentsPhoto/apart2.jpg'
         ]);
         Apartment::create([
             'owner_id' => 5, // 4 5 8
@@ -48,9 +48,9 @@ class ApartmentSeeder extends Seeder
             'size' => 75,
             'condition' => 'deluxe',
             'is_approved' => 'approved',
-            'img1' => 'ApartmentsPhoto/apart3.jpg',
-            'img2' => 'ApartmentsPhoto/apart3.jpg',
-            'img3' => 'ApartmentsPhoto/apart3.jpg'
+            'img1_path' => 'ApartmentsPhoto/apart3.jpg',
+            'img2_path' => 'ApartmentsPhoto/apart3.jpg',
+            'img3_path' => 'ApartmentsPhoto/apart3.jpg'
         ]);
         Apartment::create([
             'owner_id' => 5, // 4 5 8
@@ -61,9 +61,9 @@ class ApartmentSeeder extends Seeder
             'size' => 110,
             'condition' => 'new',
             'is_approved' => 'approved',
-            'img1' => 'ApartmentsPhoto/apart4.jpg',
-            'img2' => 'ApartmentsPhoto/apart4.jpg',
-            'img3' => 'ApartmentsPhoto/apart4.jpg'
+            'img1_path' => 'ApartmentsPhoto/apart4.jpg',
+            'img2_path' => 'ApartmentsPhoto/apart4.jpg',
+            'img3_path' => 'ApartmentsPhoto/apart4.jpg'
         ]);
         Apartment::create([
             'owner_id' => 8, // 4 5 8
@@ -73,9 +73,9 @@ class ApartmentSeeder extends Seeder
             'rooms' => 2,
             'size' => 60,
             'condition' => 'new',
-            'img1' => 'ApartmentsPhoto/apart5.jpg',
-            'img2' => 'ApartmentsPhoto/apart5.jpg',
-            'img3' => 'ApartmentsPhoto/apart5.jpg'
+            'img1_path' => 'ApartmentsPhoto/apart5.jpg',
+            'img2_path' => 'ApartmentsPhoto/apart5.jpg',
+            'img3_path' => 'ApartmentsPhoto/apart5.jpg'
         ]);
         Apartment::create([
             'owner_id' => 4, // 4 5 8
@@ -86,9 +86,9 @@ class ApartmentSeeder extends Seeder
             'size' => 60,
             'condition' => 'normal',
             'is_approved' => 'rejected',
-            'img1' => 'ApartmentsPhoto/apart6.jpg',
-            'img2' => 'ApartmentsPhoto/apart6.jpg',
-            'img3' => 'ApartmentsPhoto/apart6.jpg'
+            'img1_path' => 'ApartmentsPhoto/apart6.jpg',
+            'img2_path' => 'ApartmentsPhoto/apart6.jpg',
+            'img3_path' => 'ApartmentsPhoto/apart6.jpg'
         ]);
         Apartment::create([
             'owner_id' => 8, // 4 5 8
@@ -98,9 +98,9 @@ class ApartmentSeeder extends Seeder
             'rooms' => 3,
             'size' => 100,
             'condition' => 'new',
-            'img1' => 'ApartmentsPhoto/apart7.jpg',
-            'img2' => 'ApartmentsPhoto/apart7.jpg',
-            'img3' => 'ApartmentsPhoto/apart7.jpg'
+            'img1_path' => 'ApartmentsPhoto/apart7.jpg',
+            'img2_path' => 'ApartmentsPhoto/apart7.jpg',
+            'img3_path' => 'ApartmentsPhoto/apart7.jpg'
         ]);
         Apartment::create([
             'owner_id' => 5, // 4 5 8
@@ -110,9 +110,9 @@ class ApartmentSeeder extends Seeder
             'rooms' => 4,
             'size' => 100,
             'condition' => 'deluxe',
-            'img1' => 'ApartmentsPhoto/apart7.jpg',
-            'img2' => 'ApartmentsPhoto/apart7.jpg',
-            'img3' => 'ApartmentsPhoto/apart7.jpg'
+            'img1_path' => 'ApartmentsPhoto/apart7.jpg',
+            'img2_path' => 'ApartmentsPhoto/apart7.jpg',
+            'img3_path' => 'ApartmentsPhoto/apart7.jpg'
         ]);
         Apartment::create([
             'owner_id' => 4, // 4 5 8
@@ -123,9 +123,9 @@ class ApartmentSeeder extends Seeder
             'size' => 110,
             'condition' => 'normal',
             'is_approved' => 'rejected',
-            'img1' => 'ApartmentsPhoto/apart8.jpg',
-            'img2' => 'ApartmentsPhoto/apart8.jpg',
-            'img3' => 'ApartmentsPhoto/apart8.jpg'
+            'img1_path' => 'ApartmentsPhoto/apart8.jpg',
+            'img2_path' => 'ApartmentsPhoto/apart8.jpg',
+            'img3_path' => 'ApartmentsPhoto/apart8.jpg'
         ]);
         Apartment::create([
             'owner_id' => 4, // 4 5 8
@@ -135,9 +135,9 @@ class ApartmentSeeder extends Seeder
             'rooms' => 6,
             'size' => 150,
             'condition' => 'deluxe',
-            'img1' => 'ApartmentsPhoto/apart9.jpg',
-            'img2' => 'ApartmentsPhoto/apart9.jpg',
-            'img3' => 'ApartmentsPhoto/apart9.jpg'
+            'img1_path' => 'ApartmentsPhoto/apart9.jpg',
+            'img2_path' => 'ApartmentsPhoto/apart9.jpg',
+            'img3_path' => 'ApartmentsPhoto/apart9.jpg'
         ]);
         Apartment::create([
             'owner_id' => 4, // 4 5 8
@@ -147,9 +147,9 @@ class ApartmentSeeder extends Seeder
             'rooms' => 5,
             'size' => 150,
             'condition' => 'new',
-            'img1' => 'ApartmentsPhoto/apart10.jpg',
-            'img2' => 'ApartmentsPhoto/apart10.jpg',
-            'img3' => 'ApartmentsPhoto/apart10.jpg'
+            'img1_path' => 'ApartmentsPhoto/apart10.jpg',
+            'img2_path' => 'ApartmentsPhoto/apart10.jpg',
+            'img3_path' => 'ApartmentsPhoto/apart10.jpg'
         ]);
         Apartment::create([
             'owner_id' => 5, // 4 5 8
@@ -159,9 +159,9 @@ class ApartmentSeeder extends Seeder
             'rooms' => 2,
             'size' => 85,
             'condition' => 'normal',
-            'img1' => 'ApartmentsPhoto/apart11.jpg',
-            'img2' => 'ApartmentsPhoto/apart11.jpg',
-            'img3' => 'ApartmentsPhoto/apart11.jpg'
+            'img1_path' => 'ApartmentsPhoto/apart11.jpg',
+            'img2_path' => 'ApartmentsPhoto/apart11.jpg',
+            'img3_path' => 'ApartmentsPhoto/apart11.jpg'
         ]);
     }
 }

@@ -35,6 +35,7 @@ class DatabaseSeeder extends Seeder
             CitySeeder::class,
             UserSeeder::class,
             ApartmentSeeder::class,
+            BookingSeeder::class
             // ReviweSeeder::class
         ]);
     }

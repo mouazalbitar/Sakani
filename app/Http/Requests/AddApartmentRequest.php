@@ -32,7 +32,7 @@ class AddApartmentRequest extends FormRequest
                 'exists:cities,id',
                 'min:1',
                 Rule::exists('cities', 'id')->where(function ($query) {
-                    return $query->where('governorate_id', $this->governorate_id);
+                    return $query->where('govId', $this->governorate_id);
                 })
             ],
             'price' => ['integer', 'min:1'],

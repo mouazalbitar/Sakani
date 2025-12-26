@@ -12,16 +12,16 @@ return new class extends Migration {
     {
         Schema::create('bookings', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('apertment_id')->constrained('apartments', 'id');
+            $table->foreignId('apartment_id')->constrained('apartments', 'id');
             $table->foreignId('tenant_id')->constrained('users', 'id');
-            $table->date('start');
-            $table->date('end');
+            $table->date('start_date');
+            $table->date('end_date');
             $table->string('payment_details')->nullable();
-            $table->enum('booking_status', [
+            $table->enum('status', [
                 'approved',
                 'canceled',
-                'pending'
-            ])->default('pending');
+                'waiting'
+            ])->default('waiting');
             $table->timestamps();
         });
     }

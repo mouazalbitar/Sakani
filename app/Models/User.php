@@ -50,11 +50,12 @@ class User extends Authenticatable
         'id_img',
     ];
 
+    // ملاحظة: ازا اضفت شي وما عملتلو دالتو بيطلع اكسبشن باسم هاد الشي ومعها attribute
     protected $appends = [
         'photo_url',
         'id_img_url',
         'address'
-    ]; // ملاحظة: ازا اضفت شي وما عملتلو دالتو بيطلع اكسبشن باسم هاد الشي ومعها attribute
+    ];
 
     /**
      * Get the attributes that should be cast.

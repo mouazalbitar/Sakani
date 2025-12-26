@@ -18,44 +18,50 @@ class Apartment extends Model
         'condition',
         'is_approved',
         'details',
-        'img1',
-        'img2',
-        'img3'
+        'img1_path',
+        'img2_path',
+        'img3_path'
     ];
 
     protected $hidden = [
         'owner_id',
-        'img1',
-        'img2',
-        'img3',
+        'governorate_id',
+        'city_id',
+        'gov_relation',
+        'city_relation',
+        'img1_path',
+        'img2_path',
+        'img3_path',
         'created_at',
         'updated_at',
     ];
 
     protected $appends = [
-        'img1_url',
-        'img2_url',
-        'img3_url'
+        'city',
+        'governorate',
+        'img1',
+        'img2',
+        'img3'
     ];
 
-    public function getImg1UrlAttribute(): ?string
+    public function getImg1Attribute()
     {
-        if ($this->img1) {
-            return asset('storage/' . $this->img1);
+        if ($this->img1_path) {
+            return asset('storage/' . $this->img1_path);
         }
         return null;
     }
-    public function getImg2UrlAttribute(): ?string
+    public function getImg2Attribute()
     {
-        if ($this->img2) {
-            return asset('storage/' . $this->img2);
+        if ($this->img2_path) {
+            return asset('storage/' . $this->img2_path);
         }
         return null;
     }
-    public function getImg3UrlAttribute(): ?string
+    public function getImg3Attribute()
     {
-        if ($this->img3) {
-            return asset('storage/' . $this->img3);
+        if ($this->img3_path) {
+            return asset('storage/' . $this->img3_path);
         }
         return null;
     }
@@ -68,6 +74,16 @@ class Apartment extends Model
     public function city_relation()
     {
         return $this->belongsTo(City::class, 'city_id', 'id');
+    }
+
+    public function getGovernorateAttribute()
+    {
+        return $this->gov_relation->governorate;
+    }
+
+    public function getCityAttribute()
+    {
+        return $this->city_relation->city;
     }
 
     public function owner()

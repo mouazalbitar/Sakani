@@ -15,7 +15,7 @@ class ApartmentController extends Controller
         $apartments = Apartment::all();
         return response()->json([
             'message' => 'Complete Successfully.',
-            'data' => ApartmentResource::collection($apartments)
+            'data' => $apartments
         ]);
     }
 
@@ -24,7 +24,7 @@ class ApartmentController extends Controller
         $apartments = Apartment::where('is_approved', 'approved')->get();
         return response()->json([
             'message' => 'Complete Successfully.',
-            'data' => ApartmentResource::collection($apartments)
+            'data' => $apartments
         ]);
     }
 
@@ -33,7 +33,7 @@ class ApartmentController extends Controller
         $apartments = Apartment::where('is_approved', 'waiting')->get();
         return response()->json([
             'message' => 'Complete Successfully.',
-            'data' => ApartmentResource::collection($apartments)
+            'data' => $apartments
         ]);
     }
 
@@ -42,7 +42,7 @@ class ApartmentController extends Controller
         $apartments = Apartment::where('is_approved', 'rejected')->get();
         return response()->json([
             'message' => 'Complete Successfully.',
-            'data' => ApartmentResource::collection($apartments)
+            'data' => $apartments
         ]);
     }
 
@@ -52,8 +52,8 @@ class ApartmentController extends Controller
         $apartment->is_approved = 'approved';
         $apartment->save();
         return response()->json([
-            'message'=>'Complete Successfully.',
-            'data'=>ApartmentResource::collection($apartment)
+            'message' => 'Complete Successfully.',
+            'data' => $apartment
         ], 200);
     }
     public function reject_apartment(int $id)
@@ -62,8 +62,8 @@ class ApartmentController extends Controller
         $apartment->is_approved = 'rejected';
         $apartment->save();
         return response()->json([
-            'message'=>'Complete Successfully.',
-            'data'=>ApartmentResource::collection($apartment)
+            'message' => 'Complete Successfully.',
+            'data' => $apartment
         ], 200);
     }
 
@@ -93,25 +93,73 @@ class ApartmentController extends Controller
         ]);
     }
 
-    /**
-     * Display the specified resource.
-     */
+
+
     public function show(Apartment $apartment)
     {
         //
     }
 
-    /**
-     * Update the specified resource in storage.
-     */
+    public function gov_filter(int $govId)
+    {
+        $apartments = Apartment::where('governorate_id', $govId)
+            ->where('is_approved', 'approved')
+            ->get();
+        return response()->json([
+            'message' => 'Complete Successfully.',
+            'data' => $apartments
+        ], 200);
+    }
+
+    public function city_filter(int $cityId)
+    {
+        $apartments = Apartment::where('city_id', $cityId)
+            ->where('is_approved', 'approved')
+            ->get();
+        return response()->json([
+            'message' => 'Complete Successfully.',
+            'data' => $apartments
+        ], 200);
+    }
+
+    public function condition_filter(string $condition)
+    {
+        $apartments = Apartment::where('condition', $condition)
+            ->where('is_approved', 'approved')
+            ->get();
+        return response()->json([
+            'message' => 'Complete Successfully.',
+            'data' => $apartments
+        ], 200);
+    }
+
+    public function size_filter(int $start, int $end)
+    {
+        $apartments = Apartment::whereBetween('size', [$start, $end])
+            ->where('is_approved', 'approved')
+            ->get();
+        return response()->json([
+            'message' => 'Complete Successfully.',
+            'data' => $apartments
+        ], 200);
+    }
+
+    public function price_filter(int $start, int $end)
+    {
+        $apartments = Apartment::whereBetween('price', [$start, $end])
+            ->where('is_approved', 'approved')
+            ->get();
+        return response()->json([
+            'message' => 'Complete Successfully.',
+            'data' => $apartments
+        ], 200);
+    }
+
     public function update(Request $request, Apartment $apartment)
     {
         //
     }
 
-    /**
-     * Remove the specified resource from storage.
-     */
     public function destroy(Apartment $apartment)
     {
         //
