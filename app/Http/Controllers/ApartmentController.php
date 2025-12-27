@@ -22,6 +22,7 @@ class ApartmentController extends Controller
     public function avaliable_apartment()
     {
         $apartments = Apartment::where('is_approved', 'approved')->get();
+        $apartments->makeHidden(['owner_id', 'owner']);
         return response()->json([
             'message' => 'Complete Successfully.',
             'data' => $apartments

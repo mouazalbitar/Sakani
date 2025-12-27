@@ -83,7 +83,10 @@ class UserSeeder extends Seeder
             'lastName' => 'Sadek',
             'email' => 'sar@gmail.com',
             'city_id' => 15,
-            'birthday' => '2000-01-01'
+            'birthday' => '2000-01-01',
+            'is_approved' => 'approved',
+            'photo'=>'UsersPhoto/photo5.jpg',
+            'id_img'=>'UsersIdPhoto/id5.jpg'
         ]);
         User::create([
             'phone_number' => '0965050005',

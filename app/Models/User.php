@@ -90,6 +90,16 @@ class User extends Authenticatable
         return $this->hasMany(Apartment::class);
     }
 
+    // public function apartmentBookings()
+    // {
+    //     /**
+    //      * الحجوزات التي تمت على شقق هذا المستخدم.
+    //      * المعامل الأول: الموديل المراد الوصول إليه (الحجوزات).
+    //      * المعامل الثاني: الموديل الوسيط (الشقق).
+    //      */
+    //     return $this->hasManyThrough(Booking::class, Apartment::class);
+    // }
+
     protected function photoUrl(): Attribute
     {
         return Attribute::make(

@@ -14,10 +14,34 @@ class Booking extends Model
         'status',
     ];
 
-    protected $appends = [];
+    protected $hidden = [
+        'user_relation',
+        'apartment'
+    ];
 
-    public function user(){
+    protected $appends = [
+        'tenant',
+        'owner',
+        'owner_id',
+    ];
+
+    public function user_relation(){
         return $this->belongsTo(User::class, 'tenant_id', 'id');
+    }
+
+    public function getTenantAttribute()
+    {
+        return $this->user_relation->firstName . ' ' . $this->user_relation->lastName;
+    }
+
+    public function getOwnerAttribute()
+    {
+        return $this->apartment->user_relation->firstName . ' ' . $this->apartment->user_relation->lastName;
+    }
+
+    public function getOwnerIdAttribute()
+    {
+        return $this->apartment->owner_id;
     }
 
     public function apartment(){

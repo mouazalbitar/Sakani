@@ -110,6 +110,7 @@ class ApartmentSeeder extends Seeder
             'rooms' => 4,
             'size' => 100,
             'condition' => 'deluxe',
+            'is_approved' => 'approved',
             'img1_path' => 'ApartmentsPhoto/apart7.jpg',
             'img2_path' => 'ApartmentsPhoto/apart7.jpg',
             'img3_path' => 'ApartmentsPhoto/apart7.jpg'
@@ -135,6 +136,7 @@ class ApartmentSeeder extends Seeder
             'rooms' => 6,
             'size' => 150,
             'condition' => 'deluxe',
+            'is_approved' => 'approved',
             'img1_path' => 'ApartmentsPhoto/apart9.jpg',
             'img2_path' => 'ApartmentsPhoto/apart9.jpg',
             'img3_path' => 'ApartmentsPhoto/apart9.jpg'
@@ -147,6 +149,7 @@ class ApartmentSeeder extends Seeder
             'rooms' => 5,
             'size' => 150,
             'condition' => 'new',
+            'is_approved' => 'approved',
             'img1_path' => 'ApartmentsPhoto/apart10.jpg',
             'img2_path' => 'ApartmentsPhoto/apart10.jpg',
             'img3_path' => 'ApartmentsPhoto/apart10.jpg'
@@ -159,6 +162,7 @@ class ApartmentSeeder extends Seeder
             'rooms' => 2,
             'size' => 85,
             'condition' => 'normal',
+            'is_approved' => 'approved',
             'img1_path' => 'ApartmentsPhoto/apart11.jpg',
             'img2_path' => 'ApartmentsPhoto/apart11.jpg',
             'img3_path' => 'ApartmentsPhoto/apart11.jpg'

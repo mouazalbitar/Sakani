@@ -173,9 +173,13 @@ class UserController extends Controller
         //
     }
 
-    public function show(string $id)
+    public function showUser(int $id)
     {
-        //
+        $user = User::findOrFail($id);
+        return response()->json([
+            'message' => 'Complete Successfully.',
+            'data' => $user
+        ], 200);
     }
 
     public function updateProfile(UpdateUserDataRequest $request)

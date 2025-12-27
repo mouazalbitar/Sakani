@@ -24,7 +24,7 @@ class Apartment extends Model
     ];
 
     protected $hidden = [
-        'owner_id',
+        'user_relation',
         'governorate_id',
         'city_id',
         'gov_relation',
@@ -37,6 +37,7 @@ class Apartment extends Model
     ];
 
     protected $appends = [
+        'owner',
         'city',
         'governorate',
         'img1',
@@ -71,14 +72,14 @@ class Apartment extends Model
         return $this->belongsTo(Governorate::class, 'governorate_id', 'id');
     }
 
-    public function city_relation()
-    {
-        return $this->belongsTo(City::class, 'city_id', 'id');
-    }
-
     public function getGovernorateAttribute()
     {
         return $this->gov_relation->governorate;
+    }
+
+    public function city_relation()
+    {
+        return $this->belongsTo(City::class, 'city_id', 'id');
     }
 
     public function getCityAttribute()
@@ -86,9 +87,14 @@ class Apartment extends Model
         return $this->city_relation->city;
     }
 
-    public function owner()
+    public function user_relation()
     {
         return $this->belongsTo(User::class, 'owner_id', 'id');
+    }
+
+    public function getOwnerAttribute()
+    {
+        return $this->user_relation->firstName . ' ' . $this->user_relation->lastName;
     }
 
     public function bookings()

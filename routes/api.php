@@ -46,6 +46,7 @@ Route::middleware('auth:sanctum')
     ->prefix('/user')
     ->group(function () {
         Route::get('/getAll', 'index')->middleware('isAdmin');
+        Route::get('/get_user/{id}', 'showUser')->middleware('isAdmin');
         Route::get('/acceptedList', 'acceptedUsers')->middleware('isAdmin');
         Route::get('/rejectedList', 'rejectedUsers')->middleware('isAdmin');
         Route::get('/waitingList', 'waitingList')->middleware('isAdmin');
@@ -79,6 +80,8 @@ Route::middleware('auth:sanctum')
     ->prefix('/booking')
     ->group(function () {
         Route::get('/getAll', 'index')->middleware('isAdmin');
+        Route::get('/get_booking', 'showBookings'); // for tenant
+        Route::get('/owner/get_booking', 'showApartmentsBookings'); // for owner
         Route::post('/add_booking', 'addBooking');
     });
 
