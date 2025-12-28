@@ -38,7 +38,6 @@ class BookingController extends Controller
                 $booking = Booking::create(['tenant_id' => $userId] + $valid);
                 return response()->json([
                     'message' => 'Booking Added Successfully.',
-                    'data' => $booking
                 ], 201);
             });
         } catch (\Exception $e) {
@@ -53,6 +52,7 @@ class BookingController extends Controller
     {
         $userId = Auth::user()->id;
         $bookings = Booking::where('tenant_id', $userId)->get();
+        $bookings->makeHidden(['tenant_id', 'tenant', 'owner']);
         return response()->json([
             'message' => 'Complete Successfully.',
             'data' => $bookings
@@ -64,10 +64,58 @@ class BookingController extends Controller
         $userId = Auth::user()->id;
         $apartmentIds = Apartment::where('owner_id', $userId)->pluck('id')->toArray();
         $bookings = Booking::whereIn('apartment_id', $apartmentIds)->get(); //->with(['tenant:id,name,phone', 'apartment:id,title'])
-        // $bookings->makeHidden(['owner_id', 'owner']);
+        $bookings->makeHidden(['owner_id', 'owner']);
         return response()->json([
             'message' => 'Complete Successfully.',
             'data' => $bookings
+        ], 200);
+    }
+
+    public function acceptBooking(int $id)
+    {
+        $booking = Booking::with('apartment')->findOrFail($id);
+
+        if ($booking->apartment->owner_id !== Auth::user()->id && !Auth::user()->isAdmin) {
+            return response()->json([
+                'message' => 'You are Not Authorized to Accept this Booking.'
+            ], 403);
+        }
+
+        if ($booking->status === 'approved') {
+            return response()->json(['message' => 'This booking is already accepted.'], 422);
+        }
+        if ($booking->status === 'canceled') {
+            return response()->json(['message' => 'This booking has been accepted before.'], 422);
+        }
+
+        $booking->update(['status' => 'approved']);
+
+        return response()->json([
+            'message' => 'Booking Accepted Successfully.',
+        ], 200);
+    }
+
+    public function rejectBooking(int $id)
+    {
+        $booking = Booking::with('apartment')->findOrFail($id);
+
+        if ($booking->apartment->owner_id !== Auth::user()->id) {
+            return response()->json([
+                'message' => 'You are Not Authorized to Accept this Booking.'
+            ], 403);
+        }
+
+        if ($booking->status === 'canceled') {
+            return response()->json(['message' => 'This booking is already canceled.'], 422);
+        }
+        if ($booking->status === 'approved') {
+            return response()->json(['message' => 'This booking has been canceled before.'], 422);
+        }
+
+        $booking->update(['status' => 'canceled']);
+
+        return response()->json([
+            'message' => 'Booking Canceled Successfully.',
         ], 200);
     }
 

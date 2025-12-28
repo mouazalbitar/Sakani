@@ -21,24 +21,24 @@ Route::post('/loginAdmin', [UserController::class, 'loginAdmin']);
 Route::post('/logout', [UserController::class, 'logout'])->middleware('auth:sanctum');
 
 
+Route::get('/gov/getAll', [GovernorateController::class, 'index']);
 Route::middleware('auth:sanctum')
     ->controller(GovernorateController::class)
     ->prefix('/gov')
     ->group(function () {
-        Route::get('/getAll', 'index');
         Route::post('/addGovernorate', 'store')->middleware('isAdmin');
         Route::put('/editGovernorate/{id}', 'update')->middleware('isAdmin');
     });
 
 
+Route::get('/city/getCities/{id}', [CityController::class, 'showCities']);
 Route::middleware('auth:sanctum')
     ->controller(CityController::class)
     ->prefix('/city')
     ->group(function () {
         Route::get('/getAll', 'index')->middleware('isAdmin');
-        Route::get('/getCities/{id}', 'showCities');
         Route::post('/addCity', 'store')->middleware('isAdmin');
-        Route::put('/editGovernorate/{id}', 'update')->middleware('isAdmin');
+        // Route::put('/editGovernorate/{id}', 'update')->middleware('isAdmin');
     });
 
 Route::middleware('auth:sanctum')
@@ -83,6 +83,8 @@ Route::middleware('auth:sanctum')
         Route::get('/get_booking', 'showBookings'); // for tenant
         Route::get('/owner/get_booking', 'showApartmentsBookings'); // for owner
         Route::post('/add_booking', 'addBooking');
+        Route::put('/accept/{id}', 'acceptBooking');
+        Route::put('/reject/{id}', 'rejectBooking');
     });
 
 

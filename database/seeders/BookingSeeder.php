@@ -58,8 +58,8 @@ class BookingSeeder extends Seeder
         Booking::create([
             'tenant_id' => 5,
             'apartment_id' => 11,
-            'start_date' => '2026-01-25',
-            'end_date' => '2026-01-28',
+            'start_date' => '2025-01-25',
+            'end_date' => '2025-01-28',
             'status' => 'approved',
         ]);
         Booking::create([
