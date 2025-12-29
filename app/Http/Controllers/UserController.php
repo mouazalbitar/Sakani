@@ -29,10 +29,8 @@ class UserController extends Controller
         $user = User::create($validated);
 
         return response()->json([
-            'message' => 'The User has Successfully Registered, Input The Verification code.',
-            'data' => $user,
-            'status' => 201
-        ]);
+            'message' => 'The User has Successfully Registered, Input The Verification code.'
+        ], 201);
     }
 
     public function login(LoginRequest $request)
@@ -46,13 +44,13 @@ class UserController extends Controller
             Auth::logout();
             return response()->json([
                 'message' => 'Login Failed, Your Account has not been approved by the Admin.'
-            ], 401);
+            ], 403);
         }
-        if ($user->is_approved == 'disapproved') {
+        if ($user->is_approved == 'rejected') {
             Auth::logout();
             return response()->json([
                 'message' => 'Login Failed, Your Account has been Rejected.'
-            ], 401);
+            ], 403);
         }
         $token = $user->createToken('authToken')->plainTextToken;
         $user->makehidden([
@@ -73,11 +71,11 @@ class UserController extends Controller
                 'message' => 'Login Failed, Incorrect Phone Number or Password.',
             ], 404);
         $user = User::where('phone_number', $request->phone_number)->firstOrFail();
-        if ($user->is_approved == 0) {
+        if ($user->is_approved == 'waiting' || $user->is_approved == 'rejected') {
             Auth::logout();
             return response()->json([
-                'message' => 'Login Failed, Your Account has not been approved by the Admin.'
-            ], 401);
+                'message' => 'Login Failed, Your Account has not been approved.'
+            ], 403);
         }
         if ($user->type == 0) {
             Auth::logout();
@@ -101,9 +99,8 @@ class UserController extends Controller
             $request->user()->tokens()->where('id', $token->id)->delete();
         }
         return response()->json([
-            'message' => 'Logout Successful',
-            'status' => 200
-        ]);
+            'message' => 'Logout Successful'
+        ], 204);
     }
 
 
@@ -180,25 +177,6 @@ class UserController extends Controller
             'message' => 'Complete Successfully.',
             'data' => $user
         ], 200);
-    }
-
-    public function updateProfile(UpdateUserDataRequest $request)
-    {
-        $userId = Auth::user()->id;
-        $user = User::findOrFail($userId);
-        $user->update($request->validated());
-        $user->makeHidden([
-            'number_verified_at',
-            'type',
-            'is_approved',
-            'created_at',
-            'updated_at'
-        ]);
-        return response()->json([
-            'message' => 'Updated Successful',
-            'data' => $user,
-            'status' => 201
-        ]);
     }
 
     public function update(UpdateUserDataRequest $request)

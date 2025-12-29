@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers;
 
-use App\Http\Requests\AddBookingRequest;
+use App\Http\Requests\BookingRequest;
 use App\Models\Apartment;
 use App\Models\Booking;
 use Exception;
@@ -21,7 +21,7 @@ class BookingController extends Controller
         ], 200);
     }
 
-    public function addBooking(AddBookingRequest $request)
+    public function addBooking(BookingRequest $request)
     {
         $userId = Auth::user()->id;
         $valid = $request->validated();
@@ -33,7 +33,7 @@ class BookingController extends Controller
                             ->where('end_date', '>=', $valid['start_date']);
                     })->lockForUpdate()->exists();
                 if ($isBooked) {
-                    throw new Exception('The Apartment is already Booked for the selected dates.', 422);
+                    throw new Exception('The Apartment is already Booked for the selected dates.');
                 }
                 $booking = Booking::create(['tenant_id' => $userId] + $valid);
                 return response()->json([
@@ -44,7 +44,7 @@ class BookingController extends Controller
             return response()->json([
                 'message' => 'Error occurred while adding booking.',
                 'error' => $e->getMessage()
-            ], 422);
+            ]);
         }
     }
 
@@ -119,7 +119,7 @@ class BookingController extends Controller
         ], 200);
     }
 
-    public function update(Request $request, Booking $booking)
+    public function updateBooking(Request $request, Booking $booking)
     {
         //
     }
