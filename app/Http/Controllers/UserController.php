@@ -142,7 +142,7 @@ class UserController extends Controller
     {
         $users = User::where('is_approved', 'approved')->get();
         return response()->json([
-            'message' => 'Complete process.',
+            'message' => 'Complete Process.',
             'data' => $users
         ], 200);
     }
@@ -151,7 +151,7 @@ class UserController extends Controller
     {
         $users = User::where('is_approved', 'rejected')->get();
         return response()->json([
-            'message' => 'Complete process.',
+            'message' => 'Complete Process.',
             'data' => $users
         ], 200);
     }
@@ -160,7 +160,7 @@ class UserController extends Controller
     {
         $users = User::where('is_approved', 'waiting')->get();
         return response()->json([
-            'message' => 'Complete process.',
+            'message' => 'Complete Process.',
             'data' => $users
         ], 200);
     }

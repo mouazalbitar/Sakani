@@ -3,6 +3,7 @@
 use App\Http\Controllers\ApartmentController;
 use App\Http\Controllers\BookingController;
 use App\Http\Controllers\CityController;
+use App\Http\Controllers\FavoriteController;
 use App\Http\Controllers\GovernorateController;
 use App\Http\Controllers\ReviewController;
 use App\Http\Controllers\UserController;
@@ -61,6 +62,7 @@ Route::middleware('auth:sanctum')
     ->group(function () {
         Route::get('/getAll', 'index')->middleware('isAdmin');
         Route::get('/avaliable_apartments', 'avaliable_apartment');
+        Route::get('/owner_apartments', 'owner_apartment');
         Route::get('/waiting_apartments', 'waitingList')->middleware('isAdmin');
         Route::get('/rejected_apartments', 'rejectedList')->middleware('isAdmin');
         Route::put('/accept/{id}', 'accept_apartment')->middleware('isAdmin');
@@ -83,13 +85,22 @@ Route::middleware('auth:sanctum')
         Route::get('/get_booking', 'showBookings'); // for tenant
         Route::get('/owner/get_booking', 'showApartmentsBookings'); // for owner
         Route::post('/add_booking', 'addBooking');
-        Route::put('/accept/{id}', 'acceptBooking');
-        Route::put('/reject/{id}', 'rejectBooking');
+        Route::put('/update_booking/{booking}', 'updateBooking'); // اسم المعامل يجب أن يطابق اسم المتغير في الدالة
+        Route::put('/canceled_booking/{booking}', 'canceledBooking'); // for tenant
+        Route::put('/accept/{id}', 'acceptBooking'); // for owner
+        Route::put('/reject/{id}', 'rejectBooking'); // for owner
     });
-
 
 Route::middleware('auth:sanctum')->prefix('/reviwe')->group(function () {
     Route::post('/add', [ReviewController::class, 'store']);
 });
 
-
+Route::middleware('auth:sanctum')
+    ->prefix('/favorite')
+    ->controller(FavoriteController::class)
+    ->group(function () {
+        Route::get('/getAll', 'index')->middleware('isAdmin');
+        Route::get('/user_favorites', 'userFavorites');
+        Route::post('/add', 'store');
+        Route::delete('/remove/{favorite}', 'destroy');
+    });

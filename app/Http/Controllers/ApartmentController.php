@@ -21,8 +21,21 @@ class ApartmentController extends Controller
 
     public function avaliable_apartment()
     {
-        $apartments = Apartment::where('is_approved', 'approved')->get();
+        $userId = Auth::user()->id;
+        $apartments = Apartment::where('is_approved', 'approved')
+        ->where('owner_id', '!=', $userId)->get();
         $apartments->makeHidden(['owner_id', 'owner']);
+        return response()->json([
+            'message' => 'Complete Successfully.',
+            'data' => $apartments
+        ]);
+    }
+
+    public function owner_apartment()
+    {
+        $userId = Auth::user()->id;
+        $apartments = Apartment::where('owner_id', $userId)->get();
+        // $apartments->makeHidden(['owner_id', 'owner']);
         return response()->json([
             'message' => 'Complete Successfully.',
             'data' => $apartments
@@ -93,7 +106,6 @@ class ApartmentController extends Controller
             'status' => 200
         ]);
     }
-
 
 
     public function show(Apartment $apartment)

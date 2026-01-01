@@ -2,48 +2,59 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\Favoritesrequest;
+use App\Models\Apartment;
 use App\Models\Favorite;
+use App\Models\User;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class FavoriteController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     */
     public function index()
     {
-        //
+        $favorites = Favorite::all();
+        return response()->json([
+            'message' => 'Completed Successfully.',
+            'data' => $favorites
+        ], 200);
     }
 
-    /**
-     * Store a newly created resource in storage.
-     */
-    public function store(Request $request)
+    public function store(Favoritesrequest $request)
     {
-        //
+        $valid = $request->validated();
+        $apartment = Apartment::findOrFail($valid['apartment_id']);
+        $this->authorize('create', [Favorite::class, $apartment]);
+        Favorite::create([
+            'apartment_id' => $valid['apartment_id'],
+            'user_id' => Auth::user()->id
+        ]);
+        return response()->json([
+            'message' => 'Favorite added Successfully',
+        ], 200);
     }
 
-    /**
-     * Display the specified resource.
-     */
-    public function show(Favorite $favorite)
+    public function userFavorites()
     {
-        //
+        $this->authorize('viewAny', Favorite::class);
+        $favorites = Favorite::where('user_id', Auth::user()->id)->get();
+        return response()->json([
+            'message' => 'Completed Successfully.',
+            'data' => $favorites
+        ], 200);
     }
 
-    /**
-     * Update the specified resource in storage.
-     */
     public function update(Request $request, Favorite $favorite)
     {
         //
     }
 
-    /**
-     * Remove the specified resource from storage.
-     */
     public function destroy(Favorite $favorite)
     {
-        //
+        $this->authorize('delete', $favorite);
+        $favorite->delete();
+        return response()->json([
+            'message' => 'Favorite removed Successfully.',
+        ], 200);
     }
 }

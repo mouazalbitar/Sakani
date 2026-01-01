@@ -24,20 +24,25 @@ class BookingController extends Controller
     public function addBooking(BookingRequest $request)
     {
         $userId = Auth::user()->id;
+        $apartment = Apartment::findOrFail($request['apartment_id']);
+        $this->authorize('create', [Booking::class, $apartment]);
         $valid = $request->validated();
         try {
-            return DB::transaction(function () use ($request, $userId, $valid) {
+            return DB::transaction(function () use ($userId, $valid) {
                 $isBooked = Booking::where('apartment_id', $valid['apartment_id'])
-                    ->where(function ($query) use ($request, $valid) {
+                    ->where(function ($query) use ($valid) {
                         $query->where('start_date', '<=', $valid['end_date'])
                             ->where('end_date', '>=', $valid['start_date']);
-                    })->lockForUpdate()->exists();
+                    })
+                    ->lockForUpdate()
+                    ->exists();
                 if ($isBooked) {
                     throw new Exception('The Apartment is already Booked for the selected dates.');
                 }
                 $booking = Booking::create(['tenant_id' => $userId] + $valid);
                 return response()->json([
                     'message' => 'Booking Added Successfully.',
+                    'data' => $booking
                 ], 201);
             });
         } catch (\Exception $e) {
@@ -59,7 +64,7 @@ class BookingController extends Controller
         ], 200);
     }
 
-    public function showApartmentsBookings()
+    public function showApartmentsBookings() // for owner
     {
         $userId = Auth::user()->id;
         $apartmentIds = Apartment::where('owner_id', $userId)->pluck('id')->toArray();
@@ -101,15 +106,40 @@ class BookingController extends Controller
 
         if ($booking->apartment->owner_id !== Auth::user()->id) {
             return response()->json([
-                'message' => 'You are Not Authorized to Accept this Booking.'
+                'message' => 'You are Not Authorized to reject this Booking.'
+            ], 403);
+        }
+
+        if ($booking->status === 'canceled') {
+            return response()->json(['message' => 'This booking is already canceled by Tenant.'], 422);
+        }
+        if ($booking->status === 'rejected') {
+            return response()->json(['message' => 'This booking has been rejected before.'], 422);
+        }
+        if ($booking->status === 'approved') {
+            return response()->json(['message' => 'This booking is already accepted before.'], 422);
+        }
+
+        $booking->update(['status' => 'rejected']);
+
+        return response()->json([
+            'message' => 'Booking Rejected Successfully.',
+        ], 200);
+    }
+
+    public function canceledBooking(Booking $booking)
+    {
+        if ($booking->tenant_id !== Auth::user()->id) {
+            return response()->json([
+                'message' => 'You are Not Authorized to cancel this Booking.'
             ], 403);
         }
 
         if ($booking->status === 'canceled') {
             return response()->json(['message' => 'This booking is already canceled.'], 422);
         }
-        if ($booking->status === 'approved') {
-            return response()->json(['message' => 'This booking has been canceled before.'], 422);
+        if ($booking->status === 'rejected') {
+            return response()->json(['message' => 'This booking has been rejected by owner.'], 422);
         }
 
         $booking->update(['status' => 'canceled']);
@@ -119,9 +149,31 @@ class BookingController extends Controller
         ], 200);
     }
 
-    public function updateBooking(Request $request, Booking $booking)
+    public function updateBooking(BookingRequest $request, Booking $booking)
     {
-        //
+        $this->authorize('update', $booking);
+
+        $validated = $request->validated();
+
+        return DB::transaction(function () use ($booking, $validated) {
+
+            $isShortening =
+                $validated['start_date'] === $booking->start_date &&
+                $validated['end_date'] < $booking->end_date;
+
+            if ($isShortening) { // حالياً فقط تقصير المدة
+                $booking->update($validated);
+
+                return response()->json([
+                    'message' => 'Booking Updated Successfully.',
+                    'data' => $booking
+                ], 200);
+            }
+
+            return response()->json([
+                'message' => 'You can only shorten the booking period.',
+            ], 422);
+        });
     }
 
     public function destroy(Booking $booking)

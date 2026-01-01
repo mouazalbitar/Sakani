@@ -13,9 +13,11 @@ return new class extends Migration
     {
         Schema::create('favorites', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('apertment_id')->constrained('apartments', 'id')->onDelete('cascade');
-            $table->foreignId('tenant_id')->constrained('users', 'id')->onDelete('cascade');
+            $table->foreignId('apartment_id')->constrained('apartments', 'id')->onDelete('cascade');
+            $table->foreignId('user_id')->constrained('users', 'id')->onDelete('cascade');
             $table->timestamps();
+
+            $table->unique(['apartment_id', 'user_id']); // Fail-Safe Design
         });
     }
 

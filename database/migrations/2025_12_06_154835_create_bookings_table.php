@@ -20,7 +20,8 @@ return new class extends Migration {
             $table->enum('status', [
                 'approved',
                 'canceled',
-                'waiting'
+                'waiting',
+                'rejected'
             ])->default('waiting');
             $table->timestamps();
         });
