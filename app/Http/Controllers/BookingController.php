@@ -30,6 +30,7 @@ class BookingController extends Controller
         try {
             return DB::transaction(function () use ($userId, $valid) {
                 $isBooked = Booking::where('apartment_id', $valid['apartment_id'])
+                    ->whereNotIn('status', ['canceled', 'rejected'])
                     ->where(function ($query) use ($valid) {
                         $query->where('start_date', '<=', $valid['end_date'])
                             ->where('end_date', '>=', $valid['start_date']);
@@ -88,7 +89,10 @@ class BookingController extends Controller
             return response()->json(['message' => 'This booking is already accepted.'], 422);
         }
         if ($booking->status === 'canceled') {
-            return response()->json(['message' => 'This booking has been accepted before.'], 422);
+            return response()->json(['message' => 'This booking has been canceled before.'], 422);
+        }
+        if ($booking->status === 'rejected') {
+            return response()->json(['message' => 'This booking has been rejected before.'], 422);
         }
 
         $booking->update(['status' => 'approved']);
@@ -123,7 +127,7 @@ class BookingController extends Controller
         ], 200);
     }
 
-    public function canceledBooking(Booking $booking)
+    public function cancelBooking(Booking $booking)
     {
         if ($booking->tenant_id !== Auth::user()->id) {
             return response()->json([
@@ -154,6 +158,7 @@ class BookingController extends Controller
         return DB::transaction(function () use ($booking, $validated) {
             $hasConflict = Booking::where('apartment_id', $booking->apartment_id)
                 ->where('id', '!=', $booking->id)
+                ->whereNotIn('status', ['canceled', 'rejected'])
                 ->where(function ($query) use ($validated) {
                     $query->where('start_date', '<=', $validated['start_date'])
                         ->where('end_date', '>=', $validated['end_date']);

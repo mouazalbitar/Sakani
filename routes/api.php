@@ -86,7 +86,7 @@ Route::middleware('auth:sanctum')
         Route::get('/owner/get_booking', 'showApartmentsBookings'); // for owner
         Route::post('/add_booking', 'addBooking');
         Route::put('/update/{booking}', 'updateBooking'); // اسم المعامل يجب أن يطابق اسم المتغير في الدالة
-        Route::put('/canceled_booking/{booking}', 'canceledBooking'); // for tenant
+        Route::put('/canceled_booking/{booking}', 'cancelBooking'); // for tenant
         Route::put('/accept/{booking}', 'acceptBooking'); // for owner
         Route::put('/reject/{booking}', 'rejectBooking'); // for owner
     });
