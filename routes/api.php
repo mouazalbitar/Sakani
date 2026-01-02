@@ -28,7 +28,7 @@ Route::middleware('auth:sanctum')
     ->prefix('/gov')
     ->group(function () {
         Route::post('/addGovernorate', 'store')->middleware('isAdmin');
-        Route::put('/editGovernorate/{id}', 'update')->middleware('isAdmin');
+        Route::put('/editGovernorate/{id}', 'update')->middleware('isAdmin'); // match(['put', 'patch'],
     });
 
 
@@ -85,10 +85,10 @@ Route::middleware('auth:sanctum')
         Route::get('/get_booking', 'showBookings'); // for tenant
         Route::get('/owner/get_booking', 'showApartmentsBookings'); // for owner
         Route::post('/add_booking', 'addBooking');
-        Route::put('/update_booking/{booking}', 'updateBooking'); // اسم المعامل يجب أن يطابق اسم المتغير في الدالة
+        Route::put('/update/{booking}', 'updateBooking'); // اسم المعامل يجب أن يطابق اسم المتغير في الدالة
         Route::put('/canceled_booking/{booking}', 'canceledBooking'); // for tenant
-        Route::put('/accept/{id}', 'acceptBooking'); // for owner
-        Route::put('/reject/{id}', 'rejectBooking'); // for owner
+        Route::put('/accept/{booking}', 'acceptBooking'); // for owner
+        Route::put('/reject/{booking}', 'rejectBooking'); // for owner
     });
 
 Route::middleware('auth:sanctum')->prefix('/reviwe')->group(function () {

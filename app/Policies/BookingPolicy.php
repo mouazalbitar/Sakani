@@ -22,18 +22,16 @@ class BookingPolicy
 
     public function create(User $user, Apartment $apartment)
     {
-        return $apartment->owner_id !== $user->id ? Response::allow() : Response::deny('Owners cannot book their own apartments.');
+        return $apartment->owner_id !== $user->id ? Response::allow() : Response::deny('Owners can\'t book their own apartments.');
     }
 
     public function update(User $user, Booking $booking)
     {
-        if ($booking->tenant_id !== $user->id) {
-            return Response::deny('You can\'t modify bookings made by other users.');
-        }
+        if ($booking->tenant_id !== $user->id)
+            return Response::deny('You can\'t modify bookings made by others.');
 
-        // if (Carbon::parse($booking->start_date)->isPast()) {
-        //     return Response::deny('This booking has already started and can\'t be modified.');
-        // }
+        if ($booking->status === 'canceled' || $booking->status === 'rejected')
+            return false;
 
         return Response::allow();
     }

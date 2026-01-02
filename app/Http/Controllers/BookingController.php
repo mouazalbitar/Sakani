@@ -53,7 +53,7 @@ class BookingController extends Controller
         }
     }
 
-    public function showBookings()
+    public function showBookings() // for tenant
     {
         $userId = Auth::user()->id;
         $bookings = Booking::where('tenant_id', $userId)->get();
@@ -76,10 +76,8 @@ class BookingController extends Controller
         ], 200);
     }
 
-    public function acceptBooking(int $id)
+    public function acceptBooking(Booking $booking)
     {
-        $booking = Booking::with('apartment')->findOrFail($id);
-
         if ($booking->apartment->owner_id !== Auth::user()->id && !Auth::user()->isAdmin) {
             return response()->json([
                 'message' => 'You are Not Authorized to Accept this Booking.'
@@ -100,10 +98,8 @@ class BookingController extends Controller
         ], 200);
     }
 
-    public function rejectBooking(int $id)
+    public function rejectBooking(Booking $booking)
     {
-        $booking = Booking::with('apartment')->findOrFail($id);
-
         if ($booking->apartment->owner_id !== Auth::user()->id) {
             return response()->json([
                 'message' => 'You are Not Authorized to reject this Booking.'
@@ -149,30 +145,30 @@ class BookingController extends Controller
         ], 200);
     }
 
-    public function updateBooking(BookingRequest $request, Booking $booking)
+    public function updateBooking(Booking $booking, BookingRequest $request)
     {
         $this->authorize('update', $booking);
 
         $validated = $request->validated();
 
         return DB::transaction(function () use ($booking, $validated) {
-
-            $isShortening =
-                $validated['start_date'] === $booking->start_date &&
-                $validated['end_date'] < $booking->end_date;
-
-            if ($isShortening) { // حالياً فقط تقصير المدة
-                $booking->update($validated);
-
+            $hasConflict = Booking::where('apartment_id', $booking->apartment_id)
+                ->where('id', '!=', $booking->id)
+                ->where(function ($query) use ($validated) {
+                    $query->where('start_date', '<=', $validated['start_date'])
+                        ->where('end_date', '>=', $validated['end_date']);
+                })
+                ->exists();
+            if ($hasConflict) {
                 return response()->json([
-                    'message' => 'Booking Updated Successfully.',
-                    'data' => $booking
-                ], 200);
+                    'message' => 'The apartment is already booked for the selected dates.',
+                ], 422);
             }
-
+            $booking->update($validated + ['status' => 'pending_update']);
             return response()->json([
-                'message' => 'You can only shorten the booking period.',
-            ], 422);
+                'message' => 'Booking Updated Successfully.',
+
+            ], 200);
         });
     }
 

@@ -24,7 +24,7 @@ class BookingRequest extends FormRequest
     {
         return [
             'apartment_id' => [$this->isMethod('post') ? 'required' : 'nullable', 'integer', 'exists:apartments,id', 'min:1'],
-            'start_date' => ['required', 'date_format:Y-m-d', 'date', 'after:today', 'before:' . now()->addMonths(3)->format('Y-m-d')],
+            'start_date' => ['required', 'date_format:Y-m-d', 'date', 'after:today', 'before:' . now()->addMonths(6)->format('Y-m-d')],
             'end_date' => ['required', 'date_format:Y-m-d', 'date', 'after:start_date'],
             'payment_details' => ['nullable'],
         ];
