@@ -7,12 +7,20 @@ use App\Http\Controllers\FavoriteController;
 use App\Http\Controllers\GovernorateController;
 use App\Http\Controllers\ReviewController;
 use App\Http\Controllers\UserController;
+use App\Services\WhatsAppService;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
 // Route::get('/user', function (Request $request) {
 //     return $request->user();
 // })->middleware('auth:sanctum');
+
+Route::get('/test_whatsapp', function(WhatsAppService $whatsapp){
+    $to = '963965050015';
+    $message = 'i wish you are a dead body';
+    $res = $whatsapp->sendMessage($to, $message);
+    return response()->json($res);
+});
 
 
 Route::post('/register', [UserController::class, 'register']);

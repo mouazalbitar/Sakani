@@ -35,9 +35,9 @@ class AddApartmentRequest extends FormRequest
                     return $query->where('govId', $this->governorate_id);
                 })
             ],
-            'price' => ['integer', 'min:1'],
-            'rooms' => ['integer', 'min:1'],
-            'size' => ['integer', 'min:1'],
+            'price' => ['required', 'integer', 'min:1'],
+            'rooms' => ['required', 'integer', 'min:1'],
+            'size' => ['required', 'integer', 'min:1'],
             'condition' => ['string', 'required', 'in:deluxe,new,normal'],
             'details' => ['string'],
             'img1' => ['nullable', 'image', 'mimes:png,jpg,jpeg', 'max:4096'], //'required', 

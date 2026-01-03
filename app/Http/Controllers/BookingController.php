@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Http\Requests\BookingRequest;
 use App\Models\Apartment;
 use App\Models\Booking;
+use App\Notifications\NewBookingNotification;
 use Exception;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -41,6 +42,8 @@ class BookingController extends Controller
                     throw new Exception('The Apartment is already Booked for the selected dates.');
                 }
                 $booking = Booking::create(['tenant_id' => $userId] + $valid);
+                $owner = $booking->apartment->user_relation;
+                $owner->notify(new NewBookingNotification($booking));
                 return response()->json([
                     'message' => 'Booking Added Successfully.',
                     'data' => $booking
