@@ -2,9 +2,11 @@
 
 namespace App\Policies;
 
+use App\Models\Apartment;
+use App\Models\Booking;
 use App\Models\Review;
 use App\Models\User;
-use Illuminate\Auth\Access\Response;
+use Illuminate\Support\Facades\Response;
 
 class ReviewPolicy
 {
@@ -27,9 +29,17 @@ class ReviewPolicy
     /**
      * Determine whether the user can create models.
      */
-    public function create(User $user): bool
+    public function create(User $user, Apartment $apartment): bool
     {
-        return false;
+        $hasBooked = Booking::where('apartment_id', $apartment->id)
+            ->where('tenant_id', $user->id)
+            ->where('status', 'accepted')
+            ->where('end_date', '<', now())
+            ->exists();
+        if (!$hasBooked) {
+            return Response::deny('You can only review apartments you have booked.');
+        }
+        return Response::allow();
     }
 
     /**

@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\AddReviewRequest;
+use App\Models\Apartment;
 use App\Models\Review;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -25,12 +26,13 @@ class ReviewController extends Controller
         $userId = Auth::user()->id;
         $data = $request->validated();
         $data['tenant_id'] = $userId;
+        $apartment = Apartment::findOrFail($data['apartment_id']);
+        $this->authorize('create', [Review::class, $apartment]);
         $rating = Review::create($data);
         return response()->json([
             'message'=>'The Review was added Successful.',
-            'data'=>$rating,
-            'status'=>201
-        ]);
+            'data'=>$rating
+        ], 201);
     }
 
     /**

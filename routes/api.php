@@ -15,7 +15,7 @@ use Illuminate\Support\Facades\Route;
 //     return $request->user();
 // })->middleware('auth:sanctum');
 
-Route::get('/test_whatsapp', function(WhatsAppService $whatsapp){
+Route::get('/test_whatsapp', function (WhatsAppService $whatsapp) {
     $to = '963965050015';
     $message = 'i wish you are a dead body';
     $res = $whatsapp->sendMessage($to, $message);
@@ -99,9 +99,12 @@ Route::middleware('auth:sanctum')
         Route::put('/reject/{booking}', 'rejectBooking'); // for owner
     });
 
-Route::middleware('auth:sanctum')->prefix('/reviwe')->group(function () {
-    Route::post('/add', [ReviewController::class, 'store']);
-});
+Route::middleware('auth:sanctum')
+    ->controller(ReviewController::class)
+    ->prefix('/review')
+    ->group(function () {
+        Route::post('/add', [ReviewController::class, 'store']);
+    });
 
 Route::middleware('auth:sanctum')
     ->prefix('/favorite')
