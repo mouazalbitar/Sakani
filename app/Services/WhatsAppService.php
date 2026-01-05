@@ -17,7 +17,7 @@ class WhatsAppService
 
     public function sendMessage(string $to, string $message): array
     {
-        $response = Http::asForm()->post( // ->withoutVerifying()
+        $response = Http::asForm()->withoutVerifying()->post( // ->withoutVerifying()
             $this->baseUrl . 'messages/chat',
             [
                 'token' => $this->token,

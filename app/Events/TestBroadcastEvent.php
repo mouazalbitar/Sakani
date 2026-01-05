@@ -10,26 +10,19 @@ use Illuminate\Contracts\Broadcasting\ShouldBroadcast;
 use Illuminate\Foundation\Events\Dispatchable;
 use Illuminate\Queue\SerializesModels;
 
-class TestBroadcastEvent
+class TestBroadcastEvent implements ShouldBroadcast
 {
     use Dispatchable, InteractsWithSockets, SerializesModels;
-    public string $message;
-
-    /**
-     * Create a new event instance.
-     */
-    public function __construct()
+    public function broadcastOn(): Channel
     {
-        $this->message = 'Websocket is Working.';
+        // قناة عامة للتج
+        return new Channel('test-channel');
     }
 
-    /**
-     * Get the channels the event should broadcast on.
-     *
-     * @return array<int, \Illuminate\Broadcasting\Channel>
-     */
-    public function broadcastOn(): PrivateChannel
+    public function broadcastWith(): array // يلي بدنا نبعتو لفلاتر
     {
-        return new PrivateChannel('test-channel');
+        return [
+            'message' => 'Hello from Laravel via Pusher!',
+        ];
     }
 }
