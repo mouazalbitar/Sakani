@@ -4,8 +4,10 @@ use App\Http\Controllers\ApartmentController;
 use App\Http\Controllers\BookingController;
 use App\Http\Controllers\CityController;
 use App\Http\Controllers\FavoriteController;
+use App\Http\Controllers\FcmTokenController;
 use App\Http\Controllers\GovernorateController;
 use App\Http\Controllers\ReviewController;
+use App\Http\Controllers\TestFcmController;
 use App\Http\Controllers\UserController;
 use App\Services\WhatsAppService;
 use Illuminate\Http\Request;
@@ -22,6 +24,8 @@ Route::get('/test_whatsapp', function (WhatsAppService $whatsapp) {
     return response()->json($res);
 });
 
+Route::middleware('auth:sanctum')->post('/fcm-token', [FcmTokenController::class, 'store']);
+Route::post('/test-fcm', [TestFcmController::class, 'send']);
 
 Route::post('/register', [UserController::class, 'register']);
 Route::post('/verify', [UserController::class, 'verifyWhatsapp']);
@@ -38,7 +42,6 @@ Route::middleware('auth:sanctum')
         Route::post('/addGovernorate', 'store')->middleware('isAdmin');
         Route::put('/editGovernorate/{id}', 'update')->middleware('isAdmin'); // match(['put', 'patch'],
     });
-
 
 Route::get('/city/getCities/{id}', [CityController::class, 'showCities']);
 Route::middleware('auth:sanctum')
@@ -92,6 +95,7 @@ Route::middleware('auth:sanctum')
         Route::get('/getAll', 'index')->middleware('isAdmin');
         Route::get('/get_booking', 'showBookings'); // for tenant
         Route::get('/owner/get_booking', 'showApartmentsBookings'); // for owner
+        Route::get('/get_apartment_bookings/{apartment}', 'apartmentBookings'); // for one apartment
         Route::post('/add_booking', 'addBooking');
         Route::put('/update/{booking}', 'updateBooking'); // اسم المعامل يجب أن يطابق اسم المتغير في الدالة
         Route::put('/canceled_booking/{booking}', 'cancelBooking'); // for tenant
@@ -103,7 +107,8 @@ Route::middleware('auth:sanctum')
     ->controller(ReviewController::class)
     ->prefix('/review')
     ->group(function () {
-        Route::post('/add', [ReviewController::class, 'store']);
+        Route::post('/add', 'store');
+        Route::get('/apartment_reviews/{apartment}', 'apartmentReview');
     });
 
 Route::middleware('auth:sanctum')

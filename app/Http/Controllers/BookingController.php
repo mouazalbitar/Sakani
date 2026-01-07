@@ -180,6 +180,15 @@ class BookingController extends Controller
         });
     }
 
+    public function apartmentBookings(Apartment $apartment){
+        $bookings = Booking::where('apartment_id', $apartment->id)->whereNotIn('status', ['canceled', 'rejected'])->get();
+        return response()->json([
+            'message' => 'Complete successfully.',
+            'data' => $bookings
+        ], 200);
+
+    }
+
     public function destroy(Booking $booking)
     {
         //

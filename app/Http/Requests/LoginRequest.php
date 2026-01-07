@@ -3,6 +3,7 @@
 namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
+use Illuminate\Validation\Rule;
 
 class LoginRequest extends FormRequest
 {
@@ -24,6 +25,9 @@ class LoginRequest extends FormRequest
         return [
             'phone_number' => ['exists:users,phone_number', 'required', 'digits:10', 'starts_with:0'], //, 'without_spaces'
             'password' => ['required', 'string', 'doesnt_start_with:/,$,#,=,(,{,[,-,@,*,~,+,|,!,:,;'],
+            // 'status' => [
+            //     Rule::enum(\App\UserStatus::class)
+            // ]
         ];
     }
 }

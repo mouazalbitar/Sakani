@@ -5,7 +5,9 @@ namespace App\Http\Controllers;
 use App\Http\Requests\CreateUserRequest;
 use App\Http\Requests\LoginRequest;
 use App\Http\Requests\UpdateUserDataRequest;
+use App\Models\FcmToken;
 use App\Models\User;
+use App\UserStatus;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
@@ -37,6 +39,13 @@ class UserController extends Controller
                 'message' => 'Login Failed, Incorrect Phone Number or Password.',
             ], 404);
         $user = User::where('phone_number', $request->phone_number)->firstOrFail();
+
+        // if($user->status != UserStatus::APPROVED) {
+        //     return response()->json([
+        //         'message' => UserStatus::loginMessage($status);
+        //     ], 403);
+        // }
+
         if ($user->is_approved == 'waiting') {
             Auth::logout();
             return response()->json([
@@ -55,7 +64,7 @@ class UserController extends Controller
             'updated_at'
         ]);
         return response()->json([
-            'message' => 'Login Successful',
+            'message' => 'Login Successful', // use helper
             'data' => $user,
             'token' => $token,
         ]);
@@ -95,6 +104,7 @@ class UserController extends Controller
             // delete via tokens relationship to avoid calling delete on token model directly
             $request->user()->tokens()->where('id', $token->id)->delete();
         }
+        FcmToken::where('token', $request->token)->delete();
         return response()->json([
             'message' => 'Logout Successful'
         ], 204);

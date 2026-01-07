@@ -15,7 +15,7 @@ class ReviewController extends Controller
      */
     public function index()
     {
-        //
+        
     }
 
     /**
@@ -33,6 +33,14 @@ class ReviewController extends Controller
             'message'=>'The Review was added Successful.',
             'data'=>$rating
         ], 201);
+    }
+
+    public function apartmentReview(Apartment $apartment){
+        $reviews = Review::where('apartment_id', $apartment->id)->get();
+        return response()->json([
+            'message' => 'Complete Successfully.',
+            'data' => $reviews
+        ], 200);
     }
 
     /**
