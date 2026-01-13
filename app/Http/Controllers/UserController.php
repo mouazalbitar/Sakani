@@ -13,6 +13,8 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Carbon;
 use Illuminate\Support\Facades\Auth;
 
+use function Symfony\Component\Clock\now;
+
 class UserController extends Controller
 {
     public function register(CreateUserRequest $request, WhatsAppService $whatsAppService)
@@ -37,11 +39,12 @@ class UserController extends Controller
         $otp = rand(100000, 999999);
         $validated['verification_code'] = $otp;
         $validated['verification_code_expires_at'] = Carbon::now()->addMinutes(5);
-        User::create($validated);
+        $user = User::create($validated);
         $message = "Your verification code is: {" . $otp . '}, Don\'t share it with any one!!';
         $whatsAppService->sendMessage($phone, $message);
         return response()->json([
-            'message' => 'The User has Successfully Registered, Input The Verification code.'
+            'message' => 'The User has Successfully Registered, Input The Verification code.',
+            'user_id' => $user->id
         ], 201);
     }
 
@@ -67,17 +70,13 @@ class UserController extends Controller
 
         // 3. نجاح التحقق: نمسح الكود من الداتابيز (لأمان أكثر)
         $user->update([
+            'number_verified_at'=>now(),
             'verification_code' => null,
-            'verification_code_expires_at' => null
+            'verification_code_expires_at' => null,
         ]);
-
-        // 4. إصدار التوكن للدخول
-        $token = $user->createToken('auth_token')->plainTextToken;
 
         return response()->json([
             'message' => 'تم التحقق من الرقم بنجاح.',
-            'access_token' => $token,
-            'user' => $user
         ], 200);
     }
 
@@ -92,17 +91,16 @@ class UserController extends Controller
 
         // 2. توليد كود جديد وتحديث وقت الانتهاء
         $newOtp = rand(100000, 999999);
-
-        $user->update([
-            'number_verified_at' => now(), // توثيق وقت التحقق
-            'verification_code' => null,
-            'verification_code_expires_at' => null
-        ]);
-
+        
         // 3. تنظيف الرقم وإرسال الرسالة مجدداً
         $phone = ltrim($user->phone_number, '+0');
-        $message = "رمز التحقق الجديد الخاص بك هو: " . $newOtp . " (صالح لمدة 5 دقائق)";
-
+        $message = "Your NEW verification code is: {" . $newOtp . '}, Don\'t share it with any one!!';
+        
+        $user->update([
+            'number_verified_at' => null, // توثيق وقت التحقق
+            'verification_code' => $newOtp,
+            'verification_code_expires_at' => Carbon::now()->addMinutes(5)
+        ]);
         try {
             $whatsAppService->sendMessage($phone, $message);
             return response()->json([

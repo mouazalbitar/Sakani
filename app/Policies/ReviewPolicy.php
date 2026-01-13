@@ -6,7 +6,8 @@ use App\Models\Apartment;
 use App\Models\Booking;
 use App\Models\Review;
 use App\Models\User;
-use Illuminate\Support\Facades\Response;
+use Illuminate\Auth\Access\Response;
+use Illuminate\Http\Response as HttpResponse;
 
 class ReviewPolicy
 {
@@ -38,13 +39,13 @@ class ReviewPolicy
             ->exists();
 
         if (!$hasBooked) {
-            return false;
+            return Response::deny('You can\'t review this apartment because you hasn\'t any done booking in this apartment yet.');
         }
         $alreadyReviewed = Review::where('apartment_id', $apartment->id)
             ->where('tenant_id', $user->id)
             ->exists();
         if ($alreadyReviewed) {
-            return false;
+            return Response::deny('You reviewed this apartment before.');
         }
         return true;
     }

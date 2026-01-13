@@ -34,7 +34,8 @@ class User extends Authenticatable
         'photo',
         'id_img',
         'verification_code',
-        'verification_code_expires_at'
+        'verification_code_expires_at',
+        'number_verified_at'
     ];
 
     /**
