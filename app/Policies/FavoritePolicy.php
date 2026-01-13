@@ -27,12 +27,13 @@ class FavoritePolicy
         if ($apartment->owner_id === $user->id) {
             return false;
         }
-        if ($apartment->is_approved !== 'approved') {
-            return Response::deny('This apartment isn\'t approved yet.');
-        }
-        return ! Favorite::where('apartment_id', $apartment->id)
-            ->where('user_id', $user->id)
-            ->exists(); // لا ترجع بيانات، بس روح اسأل
+        // if ($apartment->is_approved !== 'approved') {
+        //     return Response::deny('This apartment isn\'t approved yet.');
+        // }
+        // return ! Favorite::where('apartment_id', $apartment->id)
+        //     ->where('user_id', $user->id)
+        //     ->exists(); // لا ترجع بيانات، بس روح اسأل
+        return true;    
     }
     public function delete(User $user, Favorite $favorite)
     {

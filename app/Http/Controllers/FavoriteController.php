@@ -23,12 +23,11 @@ class FavoriteController extends Controller
     public function store(Favoritesrequest $request)
     {
         $valid = $request->validated();
+        $user_id = Auth::user()->id;
         $apartment = Apartment::findOrFail($valid['apartment_id']);
         $this->authorize('create', [Favorite::class, $apartment]);
-        Favorite::create([
-            'apartment_id' => $valid['apartment_id'],
-            'user_id' => Auth::user()->id
-        ]);
+        $valid['tenant_id'] = $user_id;
+        Favorite::create($valid);
         return response()->json([
             'message' => 'Favorite added Successfully',
         ], 200);
