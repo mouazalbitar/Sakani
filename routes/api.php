@@ -8,7 +8,9 @@ use App\Http\Controllers\FcmTokenController;
 use App\Http\Controllers\GovernorateController;
 use App\Http\Controllers\ReviewController;
 use App\Http\Controllers\UserController;
+use App\Notifications\TestFcmNotification;
 use App\Services\WhatsAppService;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 
 // Route::get('/user', function (Request $request) {
@@ -21,12 +23,21 @@ Route::get('/test_whatsapp', function (WhatsAppService $whatsapp) {
     $res = $whatsapp->sendMessage($to, $message);
     return response()->json($res);
 });
+Route::get('/test-notification', function () {
+    $user = Auth::user(); // المستخدم الحالي
+    $user->notify(new TestFcmNotification(
+        'Hello!', 
+        'This is a test FCM notification.'
+    ));
+
+    return 'Notification sent!';
+})->middleware('auth:sanctum');
 
 Route::middleware('auth:sanctum')->post('/fcm-token', [FcmTokenController::class, 'store']);
 
 Route::middleware('auth:sanctum')->get('/test-fcm', [TestNotificationController::class, 'sendTest']);
 
-
+Route::get('/app/login', [UserController::class, 'store']);
 Route::post('/register', [UserController::class, 'register']);
 Route::post('/verify', [UserController::class, 'verifyWhatsapp']);
 Route::post('/login', [UserController::class, 'login']);
@@ -57,13 +68,15 @@ Route::middleware('auth:sanctum')
     ->controller(UserController::class)
     ->prefix('/user')
     ->group(function () {
-        Route::get('/getAll', 'index')->middleware('isAdmin');
-        Route::get('/get_user/{id}', 'showUser')->middleware('isAdmin');
-        Route::get('/acceptedList', 'acceptedUsers')->middleware('isAdmin');
-        Route::get('/rejectedList', 'rejectedUsers')->middleware('isAdmin');
-        Route::get('/waitingList', 'waitingList')->middleware('isAdmin');
-        Route::put('/accept/{id}', 'acceptUser')->middleware('isAdmin');
-        Route::put('/reject/{id}', 'rejectUser')->middleware('isAdmin');
+        Route::middleware('isAdmin')->group(function () {
+            Route::get('/getAll', 'index');
+            Route::get('/get_user/{id}', 'showUser');
+            Route::get('/acceptedList', 'acceptedUsers');
+            Route::get('/rejectedList', 'rejectedUsers');
+            Route::get('/waitingList', 'waitingList');
+            Route::put('/accept/{id}', 'acceptUser');
+            Route::put('/reject/{id}', 'rejectUser');
+        });
         Route::put('/update', 'updateProfile');
     });
 

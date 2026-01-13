@@ -8,7 +8,7 @@ class Favorite extends Model
 {
     protected $fillable = [
         'apartment_id',
-        'tenant_id'
+        'user_id'
     ];
 
     protected $hidden = [
