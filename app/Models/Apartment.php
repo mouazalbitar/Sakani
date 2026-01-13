@@ -42,7 +42,8 @@ class Apartment extends Model
         'governorate',
         'img1',
         'img2',
-        'img3'
+        'img3',
+        'rating'
     ];
 
     public function getImg1Attribute()
@@ -106,6 +107,14 @@ class Apartment extends Model
     {
         return $this->hasMany(Review::class);
     }
+    // public function reviewsApartment(){
+    //     return $this->reviews()->avg('rating');
+    // }
+    public function getRatingAttribute()
+    {
+        return round($this->reviews()->avg('rating'), 2);
+    }
+
     public function favorites()
     {
         return $this->hasMany(Favorite::class);

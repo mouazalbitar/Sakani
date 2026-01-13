@@ -16,7 +16,6 @@ class Booking extends Model
 
     protected $hidden = [
         'user_relation',
-        'apartment'
     ];
 
     protected $appends = [

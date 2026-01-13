@@ -23,7 +23,9 @@ class ApartmentController extends Controller
     {
         $userId = Auth::user()->id;
         $apartments = Apartment::where('is_approved', 'approved')
-        ->where('owner_id', '!=', $userId)->get();
+            ->where('owner_id', '!=', $userId)
+            // ->withAvg('reviews', 'rating')
+            ->get();
         $apartments->makeHidden(['owner_id', 'owner']);
         return response()->json([
             'message' => 'Complete Successfully.',

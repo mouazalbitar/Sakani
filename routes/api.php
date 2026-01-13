@@ -7,10 +7,8 @@ use App\Http\Controllers\FavoriteController;
 use App\Http\Controllers\FcmTokenController;
 use App\Http\Controllers\GovernorateController;
 use App\Http\Controllers\ReviewController;
-use App\Http\Controllers\TestFcmController;
 use App\Http\Controllers\UserController;
 use App\Services\WhatsAppService;
-use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
 // Route::get('/user', function (Request $request) {
@@ -25,7 +23,9 @@ Route::get('/test_whatsapp', function (WhatsAppService $whatsapp) {
 });
 
 Route::middleware('auth:sanctum')->post('/fcm-token', [FcmTokenController::class, 'store']);
-Route::post('/test-fcm', [TestFcmController::class, 'send']);
+
+Route::middleware('auth:sanctum')->get('/test-fcm', [TestNotificationController::class, 'sendTest']);
+
 
 Route::post('/register', [UserController::class, 'register']);
 Route::post('/verify', [UserController::class, 'verifyWhatsapp']);

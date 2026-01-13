@@ -23,6 +23,6 @@ class FcmTokenController extends Controller
             ]
         );
 
-        return response()->json(['message' => 'Token stored']);
+        return response()->json(['message' => 'Token stored.']);
     }
 }

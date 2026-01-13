@@ -1,57 +1,47 @@
 <?php
-
 namespace App\Services;
 
-use Google\Auth\ApplicationDefaultCredentials;
-use GuzzleHttp\Client;
+use Illuminate\Support\Facades\Http;
 
-class FirebaseService
+class FcmService
 {
-    protected string $projectId;
-
-    public function __construct()
+    protected static function getAccessToken()
     {
-        $this->projectId = config('services.firebase.project_id');
+        $json = json_decode(file_get_contents(config('services.fcm.credentials')), true);
+
+        $jwtHeader = base64_encode(json_encode(['alg' => 'RS256','typ' => 'JWT']));
+        $now = time();
+        $jwtClaimSet = base64_encode(json_encode([
+            'iss' => $json['client_email'],
+            'scope' => 'https://www.googleapis.com/auth/firebase.messaging',
+            'aud' => $json['token_uri'],
+            'iat' => $now,
+            'exp' => $now + 3600
+        ]));
+
+        // في الواقع سنستخدم مكتبة Google Auth الرسمية أو firebase/php-jwt
+        // لتوقيع JWT بالـ private_key
+        // ثم نرسل POST إلى $json['token_uri'] للحصول على access_token
+
+        // لاحقًا نستخدم $accessToken في Authorization
     }
 
-    public function getAccessToken(): string
+    public static function send($token, $title, $body, $data = [])
     {
-        putenv('GOOGLE_APPLICATION_CREDENTIALS=' . config('services.firebase.credentials'));
+        $accessToken = self::getAccessToken();
 
-        $scopes = ['https://www.googleapis.com/auth/firebase.messaging'];
-        $credentials = ApplicationDefaultCredentials::getCredentials($scopes);
-
-        $token = $credentials->fetchAuthToken();
-
-        return $token['access_token'];
-    }
-
-    public function sendToToken(string $token, string $title, string $body, array $data = [])
-{
-    $accessToken = $this->getAccessToken();
-
-    $client = new Client();
-
-    $response = $client->post(
-        "https://fcm.googleapis.com/v1/projects/{$this->projectId}/messages:send",
-        [
-            'headers' => [
-                'Authorization' => "Bearer {$accessToken}",
-                'Content-Type'  => 'application/json',
-            ],
-            'json' => [
-                'message' => [
-                    'token' => $token,
-                    'notification' => [
-                        'title' => $title,
-                        'body'  => $body,
-                    ],
-                    'data' => $data,
+        return Http::withHeaders([
+            'Authorization' => 'Bearer '.$accessToken,
+            'Content-Type' => 'application/json',
+        ])->post('https://fcm.googleapis.com/v1/projects/YOUR_PROJECT_ID/messages:send', [
+            'message' => [
+                'token' => $token,
+                'notification' => [
+                    'title' => $title,
+                    'body' => $body
                 ],
-            ],
-        ]
-    );
-
-    return json_decode($response->getBody(), true);
-}
+                'data' => $data
+            ]
+        ]);
+    }
 }
