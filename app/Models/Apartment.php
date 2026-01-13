@@ -4,6 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Casts\Attribute;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Storage;
 
 class Apartment extends Model
@@ -38,7 +39,8 @@ class Apartment extends Model
         'city',
         'governorate',
         'rating',
-        'all_images'
+        'all_images',
+        'is_tenant'
     ];
 
     protected $casts = [
@@ -105,5 +107,15 @@ class Apartment extends Model
     public function favorites()
     {
         return $this->hasMany(Favorite::class);
+    }
+
+    public function getIsTenantAttribute()
+    {
+        $user = Auth::user()->id;
+        return Booking::where('apartment_id', $this->id)
+            ->where('tenant_id', $user)
+            ->where('status', 'approved')
+            ->where('end_date', '<', now())
+            ->exists();
     }
 }
