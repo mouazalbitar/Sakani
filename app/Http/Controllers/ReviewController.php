@@ -10,17 +10,7 @@ use Illuminate\Support\Facades\Auth;
 
 class ReviewController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     */
-    public function index()
-    {
-        
-    }
-
-    /**
-     * Store a newly created resource in storage.
-     */
+    public function index(){}
     public function store(AddReviewRequest $request)
     {
         $userId = Auth::user()->id;
@@ -43,27 +33,9 @@ class ReviewController extends Controller
         ], 200);
     }
 
-    /**
-     * Display the specified resource.
-     */
-    public function show(Review $review)
-    {
-        //
-    }
+    public function show(Review $review){}
 
-    /**
-     * Update the specified resource in storage.
-     */
-    public function update(Request $request, Review $review)
-    {
-        //
-    }
+    public function update(Request $request, Review $review){}
 
-    /**
-     * Remove the specified resource from storage.
-     */
-    public function destroy(Review $review)
-    {
-        //
-    }
+    public function destroy(Review $review){}
 }

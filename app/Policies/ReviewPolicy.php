@@ -36,7 +36,14 @@ class ReviewPolicy
             ->where('status', 'approved')
             ->where('end_date', '<', now())
             ->exists();
+
         if (!$hasBooked) {
+            return false;
+        }
+        $alreadyReviewed = Review::where('apartment_id', $apartment->id)
+            ->where('user_id', $user->id)
+            ->exists();
+        if ($alreadyReviewed) {
             return false;
         }
         return true;

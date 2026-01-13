@@ -89,18 +89,14 @@ class ApartmentController extends Controller
         $userId = Auth::user()->id;
         $data = $request->validated();
         $data['owner_id'] = $userId;
-        if ($request->hasFile('img1')) {
-            $path = $request->file('img1')->store('ApartmentsPhoto', 'public');
-            $data['img1'] = $path;
+        $imagePaths = [];
+        if ($request->hasFile('images')) {
+            foreach ($request->file('images') as $image) {
+                $path = $image->store('ApartmentsPhoto', 'public');
+                $imagePaths[] = $path;
+            }
         }
-        if ($request->hasFile('img2')) {
-            $path2 = $request->file('img2')->store('ApartmentsPhoto', 'public');
-            $data['img2'] = $path2;
-        }
-        if ($request->hasFile('img3')) {
-            $path3 = $request->file('img3')->store('ApartmentsPhoto', 'public');
-            $data['img3'] = $path3;
-        }
+        $data['images'] = $imagePaths;
         $apartment = Apartment::create($data);
         return response()->json([
             'message' => 'The Apartment has Successfully Added',
@@ -112,7 +108,6 @@ class ApartmentController extends Controller
 
     public function show(Apartment $apartment)
     {
-        //
     }
 
     public function gov_filter(int $govId)

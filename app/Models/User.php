@@ -32,7 +32,9 @@ class User extends Authenticatable
         'birthday',
         'is_approved',
         'photo',
-        'id_img'
+        'id_img',
+        'verification_code',
+        'verification_code_expires_at'
     ];
 
     /**

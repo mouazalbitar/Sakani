@@ -17,16 +17,10 @@ use Illuminate\Support\Facades\Route;
 //     return $request->user();
 // })->middleware('auth:sanctum');
 
-Route::get('/test_whatsapp', function (WhatsAppService $whatsapp) {
-    $to = '963965050015';
-    $message = 'i wish you are a dead body';
-    $res = $whatsapp->sendMessage($to, $message);
-    return response()->json($res);
-});
 Route::get('/test-notification', function () {
     $user = Auth::user(); // المستخدم الحالي
     $user->notify(new TestFcmNotification(
-        'Hello!', 
+        'Hello!',
         'This is a test FCM notification.'
     ));
 
@@ -37,11 +31,15 @@ Route::middleware('auth:sanctum')->post('/fcm-token', [FcmTokenController::class
 
 Route::middleware('auth:sanctum')->get('/test-fcm', [TestNotificationController::class, 'sendTest']);
 
-Route::get('/app/login', [UserController::class, 'store']);
-Route::post('/register', [UserController::class, 'register']);
-Route::post('/verify', [UserController::class, 'verifyWhatsapp']);
-Route::post('/login', [UserController::class, 'login']);
-Route::post('/loginAdmin', [UserController::class, 'loginAdmin']);
+Route::controller(UserController::class)->group(function () {
+    Route::get('/app/login', 'store');
+    Route::post('/register', 'register');
+    Route::post('/verify_otp', 'verifyOtp');
+    Route::post('/resend_otp', 'resendOtp');
+    Route::post('/login', 'login');
+    Route::post('/loginAdmin', 'loginAdmin');
+});
+
 Route::post('/logout', [UserController::class, 'logout'])->middleware('auth:sanctum');
 
 
@@ -107,6 +105,7 @@ Route::middleware('auth:sanctum')
     ->group(function () {
         Route::get('/getAll', 'index')->middleware('isAdmin');
         Route::get('/get_booking', 'showBookings'); // for tenant
+        Route::get('/get_done_booking', 'DoneUserBookings'); // for tenant
         Route::get('/owner/get_booking', 'showApartmentsBookings'); // for owner
         Route::get('/get_apartment_bookings/{apartment}', 'apartmentBookings'); // for one apartment
         Route::post('/add_booking', 'addBooking');

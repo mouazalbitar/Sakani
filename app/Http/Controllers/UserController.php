@@ -7,13 +7,15 @@ use App\Http\Requests\LoginRequest;
 use App\Http\Requests\UpdateUserDataRequest;
 use App\Models\FcmToken;
 use App\Models\User;
+use App\Services\WhatsAppService;
 use App\UserStatus;
 use Illuminate\Http\Request;
+use Illuminate\Support\Carbon;
 use Illuminate\Support\Facades\Auth;
 
 class UserController extends Controller
 {
-    public function register(CreateUserRequest $request)
+    public function register(CreateUserRequest $request, WhatsAppService $whatsAppService)
     {
         // Hash::make($request->password);  //hashing in Model
         $validated = $request->validated();
@@ -25,11 +27,92 @@ class UserController extends Controller
             $path2 = $request->file('id_img')->store('UsersIdPhoto', 'public');
             $validated['id_img'] = $path2;
         }
-        $user = User::create($validated);
-
+        $phone = ltrim($validated['phone_number'], '+0');
+        $isWhatsAppUser = $whatsAppService->checkPhoneExistence($phone);
+        if (!$isWhatsAppUser) {
+            return response()->json([
+                'message' => 'This phone number doesn\'t has Whatsapp Account.'
+            ], 422);
+        }
+        $otp = rand(100000, 999999);
+        $validated['verification_code'] = $otp;
+        $validated['verification_code_expires_at'] = Carbon::now()->addMinutes(5);
+        User::create($validated);
+        $message = "Your verification code is: {" . $otp . '}, Don\'t share it with any one!!';
+        $whatsAppService->sendMessage($phone, $message);
         return response()->json([
             'message' => 'The User has Successfully Registered, Input The Verification code.'
         ], 201);
+    }
+
+    public function verifyOtp(Request $request)
+    {
+        // التحقق من المدخلات
+        $request->validate([
+            'user_id' => 'required|exists:users,id',
+            'otp' => 'required|numeric',
+        ]);
+
+        $user = User::find($request->user_id);
+
+        // 1. هل الكود مطابق؟
+        if ($user->verification_code != $request->otp) {
+            return response()->json(['message' => 'رمز التحقق خاطئ'], 400);
+        }
+
+        // 2. هل انتهت صلاحية الـ 5 دقائق؟
+        if (Carbon::now()->greaterThan($user->verification_code_expires_at)) {
+            return response()->json(['message' => 'انتهت صلاحية الرمز، يرجى طلب رمز جديد'], 400);
+        }
+
+        // 3. نجاح التحقق: نمسح الكود من الداتابيز (لأمان أكثر)
+        $user->update([
+            'verification_code' => null,
+            'verification_code_expires_at' => null
+        ]);
+
+        // 4. إصدار التوكن للدخول
+        $token = $user->createToken('auth_token')->plainTextToken;
+
+        return response()->json([
+            'message' => 'تم التحقق من الرقم بنجاح.',
+            'access_token' => $token,
+            'user' => $user
+        ], 200);
+    }
+
+    public function resendOtp(Request $request, WhatsAppService $whatsAppService)
+    {
+        // 1. التحقق من وجود المستخدم
+        $request->validate([
+            'user_id' => 'required|exists:users,id',
+        ]);
+
+        $user = User::find($request->user_id);
+
+        // 2. توليد كود جديد وتحديث وقت الانتهاء
+        $newOtp = rand(100000, 999999);
+
+        $user->update([
+            'number_verified_at' => now(), // توثيق وقت التحقق
+            'verification_code' => null,
+            'verification_code_expires_at' => null
+        ]);
+
+        // 3. تنظيف الرقم وإرسال الرسالة مجدداً
+        $phone = ltrim($user->phone_number, '+0');
+        $message = "رمز التحقق الجديد الخاص بك هو: " . $newOtp . " (صالح لمدة 5 دقائق)";
+
+        try {
+            $whatsAppService->sendMessage($phone, $message);
+            return response()->json([
+                'message' => 'تم إعادة إرسال كود جديد إلى واتساب بنجاح.'
+            ], 200);
+        } catch (\Exception $e) {
+            return response()->json([
+                'message' => 'فشل إرسال الرسالة، يرجى المحاولة لاحقاً.'
+            ], 500);
+        }
     }
 
     public function login(LoginRequest $request)

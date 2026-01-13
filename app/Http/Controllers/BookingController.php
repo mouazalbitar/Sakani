@@ -10,6 +10,7 @@ use Exception;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
+use function Illuminate\Support\now;
 
 class BookingController extends Controller
 {
@@ -180,7 +181,8 @@ class BookingController extends Controller
         });
     }
 
-    public function apartmentBookings(Apartment $apartment){
+    public function apartmentBookings(Apartment $apartment)
+    {
         $bookings = Booking::where('apartment_id', $apartment->id)->whereNotIn('status', ['canceled', 'rejected'])->get();
         return response()->json([
             'message' => 'Complete successfully.',
@@ -189,8 +191,20 @@ class BookingController extends Controller
 
     }
 
+    public function DoneUserBookings()
+    {
+        $userId = Auth::user()->id;
+        $bookings = Booking::where('tenant_id', $userId)
+            ->where('status', 'approved')
+            ->where('end_date', '<=', now())
+            ->get();
+        return response()->json([
+            'message' => 'Complete Successfully',
+            'data' => $bookings
+        ], 200);
+    }
+
     public function destroy(Booking $booking)
     {
-        //
     }
 }

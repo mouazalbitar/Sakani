@@ -15,9 +15,29 @@ class WhatsAppService
         $this->token   = config('services.ultramsg.token');
     }
 
+    /**
+     * التحقق مما إذا كان الرقم مسجلاً في واتساب أم لا
+     */
+    public function checkPhoneExistence(string $phone): bool
+    {
+        // UltraMSG Contact Check API
+        $response = Http::withoutVerifying()->get($this->baseUrl . 'contacts/check', [
+            'token'  => $this->token,
+            'chatId' => $phone . '@c.us', // الصيغة المطلوبة من UltraMSG
+        ]);
+
+        $data = $response->json();
+
+        // إذا كانت الحالة valid أو status = valid فهذا يعني الرقم موجود
+        return isset($data['status']) && $data['status'] === 'valid';
+    }
+
+    /**
+     * إرسال الرسالة
+     */
     public function sendMessage(string $to, string $message): array
     {
-        $response = Http::asForm()->withoutVerifying()->post( // ->withoutVerifying()
+        $response = Http::asForm()->withoutVerifying()->post(
             $this->baseUrl . 'messages/chat',
             [
                 'token' => $this->token,

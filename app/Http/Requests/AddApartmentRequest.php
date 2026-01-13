@@ -40,9 +40,8 @@ class AddApartmentRequest extends FormRequest
             'size' => ['required', 'integer', 'min:1'],
             'condition' => ['string', 'required', 'in:deluxe,new,normal'],
             'details' => ['string'],
-            'img1' => ['nullable', 'image', 'mimes:png,jpg,jpeg', 'max:4096'], //'required', 
-            'img2' => ['nullable', 'image', 'mimes:png,jpg,jpeg', 'max:4096'],
-            'img3' => ['nullable', 'image', 'mimes:png,jpg,jpeg', 'max:4096']
+            'images' => ['required', 'array', 'min:1', 'max:10'], //for all array
+            'images.*' => ['image', 'mimes:png,jpg,jpeg', 'max:4096'] //for one item in array
         ];
     }
 }

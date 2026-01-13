@@ -18,10 +18,9 @@ class Apartment extends Model
         'condition',
         'is_approved',
         'details',
-        'img1_path',
-        'img2_path',
-        'img3_path'
+        'images'
     ];
+
 
     protected $hidden = [
         'user_relation',
@@ -29,9 +28,7 @@ class Apartment extends Model
         'city_id',
         'gov_relation',
         'city_relation',
-        'img1_path',
-        'img2_path',
-        'img3_path',
+        'images',
         'created_at',
         'updated_at',
     ];
@@ -40,34 +37,24 @@ class Apartment extends Model
         'owner',
         'city',
         'governorate',
-        'img1',
-        'img2',
-        'img3',
-        'rating'
+        'rating',
+        'all_images'
     ];
 
-    public function getImg1Attribute()
-    {
-        if ($this->img1_path) {
-            return asset('storage/' . $this->img1_path);
-        }
-        return null;
-    }
-    public function getImg2Attribute()
-    {
-        if ($this->img2_path) {
-            return asset('storage/' . $this->img2_path);
-        }
-        return null;
-    }
-    public function getImg3Attribute()
-    {
-        if ($this->img3_path) {
-            return asset('storage/' . $this->img3_path);
-        }
-        return null;
-    }
+    protected $casts = [
+        'images' => 'array'
+    ];
 
+    public function getAllImagesAttribute()
+    {
+        if (is_array($this->images)) {
+            return array_map(function ($image) {
+                return asset('storage/' . $image);
+            }, $this->images);
+        }
+
+        return [];
+    }
     public function gov_relation()
     {
         return $this->belongsTo(Governorate::class, 'governorate_id', 'id');
