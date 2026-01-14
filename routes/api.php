@@ -18,12 +18,11 @@ use Illuminate\Support\Facades\Route;
 // })->middleware('auth:sanctum');
 
 Route::get('/test-notification', function () {
-    $user = Auth::user(); // المستخدم الحالي
+    $user = Auth::user();
     $user->notify(new TestFcmNotification(
         'Hello!',
         'This is a test FCM notification.'
     ));
-
     return 'Notification sent!';
 })->middleware('auth:sanctum');
 
@@ -38,7 +37,6 @@ Route::controller(UserController::class)->group(function () {
     Route::post('/login', 'login');
     Route::post('/loginAdmin', 'loginAdmin');
 });
-
 Route::post('/logout', [UserController::class, 'logout'])->middleware('auth:sanctum');
 
 

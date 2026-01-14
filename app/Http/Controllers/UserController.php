@@ -50,7 +50,6 @@ class UserController extends Controller
 
     public function verifyOtp(Request $request)
     {
-        // التحقق من المدخلات
         $request->validate([
             'user_id' => 'required|exists:users,id',
             'otp' => 'required|numeric',
@@ -58,57 +57,51 @@ class UserController extends Controller
 
         $user = User::find($request->user_id);
 
-        // 1. هل الكود مطابق؟
         if ($user->verification_code != $request->otp) {
-            return response()->json(['message' => 'رمز التحقق خاطئ'], 400);
+            return response()->json(['message' => 'Wrong code.'], 400);
         }
 
-        // 2. هل انتهت صلاحية الـ 5 دقائق؟
         if (Carbon::now()->greaterThan($user->verification_code_expires_at)) {
-            return response()->json(['message' => 'انتهت صلاحية الرمز، يرجى طلب رمز جديد'], 400);
+            return response()->json(['message' => 'code invalid, try again'], 400);
         }
 
-        // 3. نجاح التحقق: نمسح الكود من الداتابيز (لأمان أكثر)
         $user->update([
-            'number_verified_at'=>now(),
+            'number_verified_at' => now(),
             'verification_code' => null,
             'verification_code_expires_at' => null,
         ]);
 
         return response()->json([
-            'message' => 'تم التحقق من الرقم بنجاح.',
+            'message' => 'Verification Done.',
         ], 200);
     }
 
     public function resendOtp(Request $request, WhatsAppService $whatsAppService)
     {
-        // 1. التحقق من وجود المستخدم
         $request->validate([
             'user_id' => 'required|exists:users,id',
         ]);
 
         $user = User::find($request->user_id);
 
-        // 2. توليد كود جديد وتحديث وقت الانتهاء
         $newOtp = rand(100000, 999999);
-        
-        // 3. تنظيف الرقم وإرسال الرسالة مجدداً
+
         $phone = ltrim($user->phone_number, '+0');
         $message = "Your NEW verification code is: {" . $newOtp . '}, Don\'t share it with any one!!';
-        
+
         $user->update([
-            'number_verified_at' => null, // توثيق وقت التحقق
+            'number_verified_at' => null,
             'verification_code' => $newOtp,
             'verification_code_expires_at' => Carbon::now()->addMinutes(5)
         ]);
         try {
             $whatsAppService->sendMessage($phone, $message);
             return response()->json([
-                'message' => 'تم إعادة إرسال كود جديد إلى واتساب بنجاح.'
+                'message' => 'Resend Done.'
             ], 200);
         } catch (\Exception $e) {
             return response()->json([
-                'message' => 'فشل إرسال الرسالة، يرجى المحاولة لاحقاً.'
+                'message' => 'The message dosen\'t Send>'
             ], 500);
         }
     }
@@ -141,6 +134,7 @@ class UserController extends Controller
         }
         $token = $user->createToken('authToken')->plainTextToken;
         $user->makehidden([
+            'number_verified_at',
             'created_at',
             'updated_at'
         ]);
@@ -190,10 +184,6 @@ class UserController extends Controller
             'message' => 'Logout Successful'
         ], 204);
     }
-
-
-
-
 
     public function acceptUser(int $id)
     {
@@ -253,10 +243,7 @@ class UserController extends Controller
         ], 200);
     }
 
-    public function store(Request $request)
-    {
-        //
-    }
+    public function store(Request $request){}
 
     public function showUser(int $id)
     {
@@ -286,8 +273,11 @@ class UserController extends Controller
         ]);
     }
 
-    public function destroy(string $id)
+    public function delete(User $user)
     {
-        //
+        $user->delete();
+        return response()->json([
+            'message' => 'User Deleted Successfully.'
+        ], 200);
     }
 }

@@ -44,7 +44,6 @@ class User extends Authenticatable
      * @var list<string>
      */
     protected $hidden = [
-        'number_verified_at',
         'password',
         'remember_token',
         'city_id', // خفيت هاد الرقم لانو هو حقل موجود بالقاعدة 
